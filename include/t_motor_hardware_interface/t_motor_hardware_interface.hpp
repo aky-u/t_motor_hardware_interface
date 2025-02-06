@@ -24,12 +24,41 @@
 #define T_MOTOR_HARDWARE_INTERFACE__T_MOTOR_HARDWARE_INTERFACE_HPP_
 
 #include <hardware_interface/system_interface.hpp>
+#include <rclcpp/rclcpp.hpp>
+#include <vector>
+
+#include "t_motor_hardware_interface/visibility_control.h"
 
 namespace t_motor_hardware_interface {
-class TMotorHardwareInterface {
+class TMotorHardwareInterface : public hardware_interface::SystemInterface, rclcpp::Node {
 public:
   TMotorHardwareInterface() = default;
   ~TMotorHardwareInterface() = default;
+
+  T_MOTOR_HARDWARE_INTERFACE_PUBLIC
+  hardware_interface::CallbackReturn on_init(const hardware_interface::HardwareInfo &info) override;
+
+  T_MOTOR_HARDWARE_INTERFACE_PUBLIC
+  std::vector<hardware_interface::StateInterface> export_state_interfaces() override;
+
+  T_MOTOR_HARDWARE_INTERFACE_PUBLIC
+  std::vector<hardware_interface::CommandInterface> export_command_interfaces() override;
+
+  T_MOTOR_HARDWARE_INTERFACE_PUBLIC
+  hardware_interface::CallbackReturn
+  on_activate(const rclcpp_lifecycle::State &previous_state) override;
+
+  T_MOTOR_HARDWARE_INTERFACE_PUBLIC
+  hardware_interface::CallbackReturn
+  on_deactivate(const rclcpp_lifecycle::State &previous_state) override;
+
+  T_MOTOR_HARDWARE_INTERFACE_PUBLIC
+  hardware_interface::return_type read(const rclcpp::Time &time,
+                                       const rclcpp::Duration &period) override;
+
+  T_MOTOR_HARDWARE_INTERFACE_PUBLIC
+  hardware_interface::return_type write(const rclcpp::Time &time,
+                                        const rclcpp::Duration &period) override;
 
 private:
 };
