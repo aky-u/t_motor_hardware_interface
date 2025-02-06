@@ -35,9 +35,20 @@ public:
   TMotorHardwareInterface() = default;
   ~TMotorHardwareInterface() = default;
 
+  /**
+   * @fn on_init
+   * @brief Initialize the hardware interface
+   * @param info Hardware information
+   * @return CallbackReturn Return code of the initialization [SUCCESS, ERROR]
+   */
   T_MOTOR_HARDWARE_INTERFACE_PUBLIC
   hardware_interface::CallbackReturn on_init(const hardware_interface::HardwareInfo &info) override;
 
+  /**
+   * @fn export_state_interfaces
+   * @brief Export the state interfaces
+   * @return std::vector<hardware_interface::StateInterface> State interfaces
+   */
   T_MOTOR_HARDWARE_INTERFACE_PUBLIC
   std::vector<hardware_interface::StateInterface> export_state_interfaces() override;
 
