@@ -22,4 +22,29 @@
 
 #include "t_motor_hardware_interface/t_motor_hardware_interface.hpp"
 
-namespace t_motor_hardware_interface {} // namespace t_motor_hardware_interface
+namespace t_motor_hardware_interface {
+
+TMotorHardware::TMotorHardware() = default;
+
+TMotorHardware::~TMotorHardware() = default;
+
+hardware_interface::CallbackReturn
+TMotorHardware::on_init(const hardware_interface::HardwareInfo &info) {}
+
+std::vector<hardware_interface::StateInterface> TMotorHardware::export_state_interfaces() {}
+
+std::vector<hardware_interface::CommandInterface> TMotorHardware::export_command_interfaces() {}
+
+hardware_interface::CallbackReturn
+TMotorHardware::on_activate(const rclcpp_lifecycle::State &previous_state) {}
+
+hardware_interface::CallbackReturn
+TMotorHardware::on_deactivate(const rclcpp_lifecycle::State &new_state) {}
+
+hardware_interface::return_type TMotorHardware::read(const rclcpp::Time &time,
+                                                     const rclcpp::Duration &period) {}
+
+hardware_interface::return_type TMotorHardware::write(const rclcpp::Time &time,
+                                                      const rclcpp::Duration &period) {}
+
+} // namespace t_motor_hardware_interface
