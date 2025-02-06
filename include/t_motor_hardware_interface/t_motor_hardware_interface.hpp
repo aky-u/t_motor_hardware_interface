@@ -23,6 +23,16 @@
 #ifndef T_MOTOR_HARDWARE_INTERFACE__T_MOTOR_HARDWARE_INTERFACE_HPP_
 #define T_MOTOR_HARDWARE_INTERFACE__T_MOTOR_HARDWARE_INTERFACE_HPP_
 
-namespace t_motor_hardware_interface {} // namespace t_motor_hardware_interface
+#include <hardware_interface/system_interface.hpp>
+
+namespace t_motor_hardware_interface {
+class TMotorHardwareInterface {
+public:
+  TMotorHardwareInterface() = default;
+  ~TMotorHardwareInterface() = default;
+
+private:
+};
+} // namespace t_motor_hardware_interface
 
 #endif // T_MOTOR_HARDWARE_INTERFACE__T_MOTOR_HARDWARE_INTERFACE_HPP_
