@@ -30,10 +30,10 @@
 #include "t_motor_hardware_interface/visibility_control.h"
 
 namespace t_motor_hardware_interface {
-class TMotorHardwareInterface : public hardware_interface::SystemInterface, rclcpp::Node {
+class TMotorHardware : public hardware_interface::SystemInterface, rclcpp::Node {
 public:
-  TMotorHardwareInterface() = default;
-  ~TMotorHardwareInterface() = default;
+  TMotorHardware() = default;
+  ~TMotorHardware() = default;
 
   /**
    * @fn on_init

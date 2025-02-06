@@ -1,0 +1,9 @@
+<library path="t_motor_hardware_interface">
+  <class name="t_motor_hardware_interface/TMotorHardware"
+         type="t_motor_hardware_interface::TMotorHardware"
+         base_class_type="hardware_interface::SystemInterface">
+    <description>
+      t_motor_hardware_interface
+    </description>
+  </class>
+</library>
