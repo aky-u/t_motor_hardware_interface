@@ -28,8 +28,15 @@
 #ifndef T_MOTOR_HARDWARE_INTERFACE__T_MOTOR__T_MOTOR_HPP_
 #define T_MOTOR_HARDWARE_INTERFACE__T_MOTOR__T_MOTOR_HPP_
 
+#include <cstdint>
+
 namespace t_motor_hardware_interface {
-typedef enum {
+
+/**
+ * @enum CAN_PACKET_ID
+ * @brief CAN packet ID
+ */
+typedef enum class CAN_PACKET_ID {
   CAN_PACKET_SET_DUTY = 0,      // Duty Cycle Mode
   CAN_PACKET_SET_CURRENT,       // Current Loop Mode
   CAN_PACKET_SET_CURRENT_BRAKE, // Current Brake Mode
@@ -37,7 +44,28 @@ typedef enum {
   CAN_PACKET_SET_POS,           // Position Mode
   CAN_PACKET_SET_ORIGIN_HERE,   // Set Origin Mode
   CAN_PACKET_SET_POS_SPD,       // Position-Speed Loop Mode
-} CAN_PACKET_ID;
+};
+
+class TMotor {
+public:
+  TMotor() = default;
+  ~TMotor() = default;
+
+private:
+  void comm_can_transmit_eid(uint32_t id, const uint8_t *data, uint8_t len) const;
+
+  void buffer_append_int32(uint8_t *buffer, int32_t number, int32_t *index) const;
+
+  void buffer_append_uint16(uint8_t *buffer, uint16_t number, int32_t *index) const;
+
+  void comm_can_set_duty(uint8_t controller_id, float duty) const;
+
+  void comm_can_set_current(uint8_t controller_id, float current) const;
+
+  void comm_can_set_current_brake(uint8_t controller_id, float current, float brake) const;
+
+  void comm_can_set_rpm(uint8_t controller_id, float rpm) const;
+};
 } // namespace t_motor_hardware_interface
 
 #endif // T_MOTOR_HARDWARE_INTERFACE__T_MOTOR__T_MOTOR_HPP_
