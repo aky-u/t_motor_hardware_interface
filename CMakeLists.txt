@@ -5,12 +5,52 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
-# find dependencies
+###########################################################################################
+# Find dependencies
+###########################################################################################
 find_package(ament_cmake REQUIRED)
-find_package(rclcpp REQUIRED)
-find_package(hardware_interface REQUIRED)
-find_package(pluginlib REQUIRED)
-find_package(realtime_tools REQUIRED)
+set(THIS_PACKAGE_ROS_DEPS
+  hardware_interface
+  pluginlib
+  realtime_tools
+  rclcpp
+)
+foreach(DEP ${THIS_PACKAGE_ROS_DEPS})
+  find_package(${DEP} REQUIRED)
+endforeach()
+
+
+###########################################################################################
+# Build as a library
+###########################################################################################
+add_library(${PROJECT_NAME} SHARED
+  src/t_motor_hardware_interface.cpp
+  src/t_motor/t_motor.cpp
+)
+
+target_include_directories(${PROJECT_NAME} PRIVATE include)
+
+foreach(DEP ${THIS_PACKAGE_ROS_DEPS})
+  ament_target_dependencies(${PROJECT_NAME} ${DEP})
+endforeach()
+
+pluginlib_export_plugin_description_file(hardware_interface t_motor_hardware_interface_plugin.xml)
+
+
+###########################################################################################
+# Install
+###########################################################################################
+install(TARGETS ${PROJECT_NAME}
+  DESTINATION lib
+)
+
+install(DIRECTORY include/
+  DESTINATION include
+)
+
+# install(DIRECTORY launch
+#   DESTINATION share/${PROJECT_NAME}
+# )
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
@@ -24,4 +64,10 @@ if(BUILD_TESTING)
   ament_lint_auto_find_test_dependencies()
 endif()
 
+###########################################################################################
+# Ament function to export the package
+###########################################################################################
+ament_export_include_directories(include)
+ament_export_libraries(${PROJECT_NAME})
+ament_export_dependencies(${THIS_PACKAGE_ROS_DEPS})
 ament_package()
