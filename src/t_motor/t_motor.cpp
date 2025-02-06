@@ -24,9 +24,7 @@
 
 namespace t_motor_hardware_interface {
 
-TMotor::TMotor() = default;
-
-TMotor::~TMotor() = default;
+TMotor::TMotor() {}
 
 void TMotor::comm_can_transmit_eid(uint32_t controller_id, const uint8_t *data, uint8_t len) const {
 }

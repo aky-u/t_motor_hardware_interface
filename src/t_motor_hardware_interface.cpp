@@ -24,9 +24,7 @@
 
 namespace t_motor_hardware_interface {
 
-TMotorHardware::TMotorHardware() = default;
-
-TMotorHardware::~TMotorHardware() = default;
+TMotorHardware::TMotorHardware() : rclcpp::Node("t_motor_hardware_interface") {}
 
 hardware_interface::CallbackReturn
 TMotorHardware::on_init(const hardware_interface::HardwareInfo &info) {}

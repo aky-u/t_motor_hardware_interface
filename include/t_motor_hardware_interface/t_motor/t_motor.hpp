@@ -36,7 +36,7 @@ namespace t_motor_hardware_interface {
  * @enum CAN_PACKET_ID
  * @brief CAN packet ID
  */
-typedef enum class CAN_PACKET_ID {
+enum class CAN_PACKET_ID {
   CAN_PACKET_SET_DUTY = 0,      // Duty Cycle Mode
   CAN_PACKET_SET_CURRENT,       // Current Loop Mode
   CAN_PACKET_SET_CURRENT_BRAKE, // Current Brake Mode
@@ -48,7 +48,7 @@ typedef enum class CAN_PACKET_ID {
 
 class TMotor {
 public:
-  TMotor() = default;
+  TMotor();
   ~TMotor() = default;
 
 private:

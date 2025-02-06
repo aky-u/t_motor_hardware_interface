@@ -32,7 +32,7 @@
 namespace t_motor_hardware_interface {
 class TMotorHardware : public hardware_interface::SystemInterface, rclcpp::Node {
 public:
-  TMotorHardware() = default;
+  TMotorHardware();
   ~TMotorHardware() = default;
 
   /**
