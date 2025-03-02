@@ -25,6 +25,8 @@ endforeach()
 ###########################################################################################
 add_library(${PROJECT_NAME} SHARED
   src/t_motor_hardware_interface.cpp
+
+  src/t_motor/can_interface.cpp
   src/t_motor/t_motor_base.cpp
 )
 
