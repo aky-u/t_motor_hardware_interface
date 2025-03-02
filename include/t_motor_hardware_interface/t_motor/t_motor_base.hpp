@@ -25,8 +25,8 @@
 
 // https://www.cubemars.com/images/file/20240611/1718085712815162.pdf
 
-#ifndef T_MOTOR_HARDWARE_INTERFACE__T_MOTOR__T_MOTOR_HPP_
-#define T_MOTOR_HARDWARE_INTERFACE__T_MOTOR__T_MOTOR_HPP_
+#ifndef T_MOTOR_HARDWARE_INTERFACE__T_MOTOR__T_MOTOR_BASE_HPP_
+#define T_MOTOR_HARDWARE_INTERFACE__T_MOTOR__T_MOTOR_BASE_HPP_
 
 #include <cstdint>
 
@@ -68,4 +68,4 @@ private:
 };
 } // namespace t_motor_hardware_interface
 
-#endif // T_MOTOR_HARDWARE_INTERFACE__T_MOTOR__T_MOTOR_HPP_
+#endif // T_MOTOR_HARDWARE_INTERFACE__T_MOTOR__T_MOTOR_BASE_HPP_

@@ -20,7 +20,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "t_motor_hardware_interface/t_motor/t_motor.hpp"
+// This file is part of the t_motor_hardware_interface package. It is written based on the AK Series
+// User Manual (v1.0.15.x) by CubeMars. You can find the manual at:
+
+// https://www.cubemars.com/images/file/20240611/1718085712815162.pdf
+
+#include "t_motor_hardware_interface/t_motor/t_motor_base.hpp"
 
 namespace t_motor_hardware_interface {
 
