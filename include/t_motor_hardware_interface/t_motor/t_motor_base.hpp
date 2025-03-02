@@ -32,24 +32,10 @@
 
 namespace t_motor_hardware_interface {
 
-/**
- * @enum CAN_PACKET_ID
- * @brief CAN packet ID
- */
-enum class CAN_PACKET_ID {
-  CAN_PACKET_SET_DUTY = 0,      // Duty Cycle Mode
-  CAN_PACKET_SET_CURRENT,       // Current Loop Mode
-  CAN_PACKET_SET_CURRENT_BRAKE, // Current Brake Mode
-  CAN_PACKET_SET_RPM,           // Speed Mode
-  CAN_PACKET_SET_POS,           // Position Mode
-  CAN_PACKET_SET_ORIGIN_HERE,   // Set Origin Mode
-  CAN_PACKET_SET_POS_SPD,       // Position-Speed Loop Mode
-};
-
-class TMotor {
+class TMotorBase {
 public:
-  TMotor();
-  ~TMotor() = default;
+  TMotorBase();
+  ~TMotorBase() = default;
 
 private:
   void comm_can_transmit_eid(uint32_t id, const uint8_t *data, uint8_t len) const;

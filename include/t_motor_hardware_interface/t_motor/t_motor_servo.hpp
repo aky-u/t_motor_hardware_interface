@@ -25,26 +25,43 @@
 
 // https://www.cubemars.com/images/file/20240611/1718085712815162.pdf
 
+#ifndef T_MOTOR_HARDWARE_INTERFACE__T_MOTOR__T_MOTOR_SERVO_HPP_
+#define T_MOTOR_HARDWARE_INTERFACE__T_MOTOR__T_MOTOR_SERVO_HPP_
+
+#include <cstdint>
+
 #include "t_motor_hardware_interface/t_motor/t_motor_base.hpp"
 
 namespace t_motor_hardware_interface {
 
-TMotorBase::TMotorBase() {}
+/**
+ * @enum CAN_PACKET_ID
+ * @brief CAN packet ID
+ */
+enum class CAN_PACKET_ID {
+  CAN_PACKET_SET_DUTY = 0,      // Duty Cycle Mode
+  CAN_PACKET_SET_CURRENT,       // Current Loop Mode
+  CAN_PACKET_SET_CURRENT_BRAKE, // Current Brake Mode
+  CAN_PACKET_SET_RPM,           // Speed Mode
+  CAN_PACKET_SET_POS,           // Position Mode
+  CAN_PACKET_SET_ORIGIN_HERE,   // Set Origin Mode
+  CAN_PACKET_SET_POS_SPD,       // Position-Speed Loop Mode
+};
 
-void TMotorBase::comm_can_transmit_eid(uint32_t controller_id, const uint8_t *data,
-                                       uint8_t len) const {}
+/**
+ * @class TMotorServo
+ * @brief Class for servo motor control
+ */
+class TMotorServo : public TMotorBase {
+public:
+  TMotorServo();
+  ~TMotorServo() = default;
 
-void TMotorBase::buffer_append_int32(uint8_t *buffer, int32_t number, int32_t *index) const {}
-
-void TMotorBase::buffer_append_uint16(uint8_t *buffer, uint16_t number, int32_t *index) const {}
-
-void TMotorBase::comm_can_set_duty(uint8_t controller_id, float duty_cycle) const {}
-
-void TMotorBase::comm_can_set_current(uint8_t controller_id, float current) const {}
-
-void TMotorBase::comm_can_set_current_brake(uint8_t controller_id, float current,
-                                            float brake) const {}
-
-void TMotorBase::comm_can_set_rpm(uint8_t controller_id, float rpm) const {}
+  void comm_can_set_pos(uint8_t controller_id, float pos) const;
+  void comm_can_set_origin_here(uint8_t controller_id) const;
+  void comm_can_set_pos_spd(uint8_t controller_id, float pos, float spd) const;
+};
 
 } // namespace t_motor_hardware_interface
+
+#endif // T_MOTOR_HARDWARE_INTERFACE__T_MOTOR__T_MOTOR_SERVO_HPP_
