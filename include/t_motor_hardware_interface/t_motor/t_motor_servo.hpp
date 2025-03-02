@@ -46,7 +46,7 @@ public:
   void comm_can_set_pos(uint8_t controller_id, float pos) const;
   void comm_can_set_origin_here(uint8_t controller_id) const;
   void comm_can_set_pos_spd(uint8_t controller_id, float pos, float spd) const;
-};
+}; // class TMotorServo
 
 } // namespace t_motor_hardware_interface
 

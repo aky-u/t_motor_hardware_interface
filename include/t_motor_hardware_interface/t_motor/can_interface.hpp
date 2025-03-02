@@ -28,10 +28,32 @@
 #ifndef T_MOTOR_HARDWARE_INTERFACE__T_MOTOR__CAN_INTERFACE_HPP_
 #define T_MOTOR_HARDWARE_INTERFACE__T_MOTOR__CAN_INTERFACE_HPP_
 
+#include <cstdint>
 #include <linux/can.h>
 #include <linux/can/raw.h>
 #include <net/if.h>
+#include <string>
 #include <sys/ioctl.h>
 #include <sys/socket.h>
+
+namespace t_motor_hardware_interface {
+
+class CANInterface {
+private:
+  int socket_fd;
+  struct sockaddr_can addr;
+  struct ifreq ifr;
+  std::string can_interface_name;
+
+public:
+  explicit CANInterface(const std::string &interface = "can0");
+  ~CANInterface();
+
+  bool initialize();
+  bool sendCANMessage(uint32_t can_id, const uint8_t *data, uint8_t len);
+  bool readCANMessage(struct can_frame &frame);
+}; // class CANInterface
+
+} // namespace t_motor_hardware_interface
 
 #endif // T_MOTOR_HARDWARE_INTERFACE__T_MOTOR__CAN_INTERFACE_HPP_

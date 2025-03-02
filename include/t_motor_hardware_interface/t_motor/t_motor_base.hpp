@@ -53,7 +53,7 @@ private:
   void comm_can_set_current_brake(uint8_t controller_id, float current, float brake) const;
 
   void comm_can_set_rpm(uint8_t controller_id, float rpm) const;
-};
+}; // class TMotorBase
 } // namespace t_motor_hardware_interface
 
 #endif // T_MOTOR_HARDWARE_INTERFACE__T_MOTOR__T_MOTOR_BASE_HPP_

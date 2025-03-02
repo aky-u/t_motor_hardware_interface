@@ -29,6 +29,7 @@
 #define T_MOTOR_HARDWARE_INTERFACE__T_MOTOR__CAN_PACKET_HPP_
 
 namespace t_motor_hardware_interface {
+
 /**
  * @enum CAN_PACKET_ID
  * @brief CAN packet ID for servo motor control
@@ -41,7 +42,8 @@ enum class CAN_PACKET_ID {
   CAN_PACKET_SET_POS,           // Position Mode
   CAN_PACKET_SET_ORIGIN_HERE,   // Set Origin Mode
   CAN_PACKET_SET_POS_SPD,       // Position-Speed Loop Mode
-};
+}; // enum class CAN_PACKET_ID
+
 } // namespace t_motor_hardware_interface
 
 #endif // T_MOTOR_HARDWARE_INTERFACE__T_MOTOR__CAN_PACKET_HPP_
