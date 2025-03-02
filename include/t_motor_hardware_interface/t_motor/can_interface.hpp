@@ -25,35 +25,13 @@
 
 // https://www.cubemars.com/images/file/20240611/1718085712815162.pdf
 
-#ifndef T_MOTOR_HARDWARE_INTERFACE__T_MOTOR__T_MOTOR_BASE_HPP_
-#define T_MOTOR_HARDWARE_INTERFACE__T_MOTOR__T_MOTOR_BASE_HPP_
+#ifndef T_MOTOR_HARDWARE_INTERFACE__T_MOTOR__CAN_INTERFACE_HPP_
+#define T_MOTOR_HARDWARE_INTERFACE__T_MOTOR__CAN_INTERFACE_HPP_
 
-#include <cstdint>
+#include <linux/can.h>
+#include <linux/can/raw.h>
+#include <net/if.h>
+#include <sys/ioctl.h>
+#include <sys/socket.h>
 
-#include "t_motor_hardware_interface/t_motor/can_packet.hpp"
-
-namespace t_motor_hardware_interface {
-
-class TMotorBase {
-public:
-  TMotorBase();
-  ~TMotorBase() = default;
-
-private:
-  void comm_can_transmit_eid(uint32_t id, const uint8_t *data, uint8_t len) const;
-
-  void buffer_append_int32(uint8_t *buffer, int32_t number, int32_t *index) const;
-
-  void buffer_append_uint16(uint8_t *buffer, uint16_t number, int32_t *index) const;
-
-  void comm_can_set_duty(uint8_t controller_id, float duty) const;
-
-  void comm_can_set_current(uint8_t controller_id, float current) const;
-
-  void comm_can_set_current_brake(uint8_t controller_id, float current, float brake) const;
-
-  void comm_can_set_rpm(uint8_t controller_id, float rpm) const;
-};
-} // namespace t_motor_hardware_interface
-
-#endif // T_MOTOR_HARDWARE_INTERFACE__T_MOTOR__T_MOTOR_BASE_HPP_
+#endif // T_MOTOR_HARDWARE_INTERFACE__T_MOTOR__CAN_INTERFACE_HPP_
