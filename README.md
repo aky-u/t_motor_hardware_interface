@@ -26,6 +26,14 @@ colcon build --symlink-install
 source install/setup.bash
 ```
 
+## How to launch
+
+### Enable CAN communication
+
+```bash
+sudo ip link set can0 up type can bitrate 1000000
+```
+
 ## AK Series
 
 ### AK80-8

@@ -73,3 +73,18 @@ ament_export_include_directories(include)
 ament_export_libraries(${PROJECT_NAME})
 ament_export_dependencies(${THIS_PACKAGE_ROS_DEPS})
 ament_package()
+
+###########################################################################################
+# Temporal main function to test the library
+###########################################################################################
+add_executable(test_main src/test_main.cpp)
+target_link_libraries(test_main ${PROJECT_NAME})
+target_include_directories(test_main PRIVATE
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>
+)
+ament_target_dependencies(test_main ${THIS_PACKAGE_ROS_DEPS})
+
+install(TARGETS test_main
+  DESTINATION lib/${PROJECT_NAME}
+)
