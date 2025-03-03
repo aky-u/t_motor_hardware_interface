@@ -20,29 +20,31 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "t_motor_hardware_interface/t_motor_hardware_interface.hpp"
+// This file is part of the t_motor_hardware_interface package. It is written based on the AK Series
+// User Manual (v1.0.15.x) by CubeMars. You can find the manual at:
+
+// https://www.cubemars.com/images/file/20240611/1718085712815162.pdf
+
+#include "t_motor_hardware_interface/t_motor/t_motor_servo.hpp"
+#include "t_motor_hardware_interface/t_motor/can_packet.hpp"
 
 namespace t_motor_hardware_interface {
 
-TMotorHardware::TMotorHardware() : rclcpp::Node("t_motor_hardware_interface") {}
+TMotorServo::TMotorServo(uint32_t motor_id, const std::string &interface)
+    : TMotorBase(motor_id, interface) {};
 
-hardware_interface::CallbackReturn
-TMotorHardware::on_init(const hardware_interface::HardwareInfo &info) {}
+void TMotorServo::setDuty(float duty) const {}
 
-std::vector<hardware_interface::StateInterface> TMotorHardware::export_state_interfaces() {}
+void TMotorServo::setCurrent(float current) const {}
 
-std::vector<hardware_interface::CommandInterface> TMotorHardware::export_command_interfaces() {}
+void TMotorServo::setCurrentBrake(float current, float brake) const {}
 
-hardware_interface::CallbackReturn
-TMotorHardware::on_activate(const rclcpp_lifecycle::State &previous_state) {}
+void TMotorServo::setRPM(float rpm) const {}
 
-hardware_interface::CallbackReturn
-TMotorHardware::on_deactivate(const rclcpp_lifecycle::State &new_state) {}
+void TMotorServo::setPosition(float pos) const {}
 
-hardware_interface::return_type TMotorHardware::read(const rclcpp::Time &time,
-                                                     const rclcpp::Duration &period) {}
+void TMotorServo::setOriginHere() const {}
 
-hardware_interface::return_type TMotorHardware::write(const rclcpp::Time &time,
-                                                      const rclcpp::Duration &period) {}
+void TMotorServo::setPositionSpeed(float pos, float spd) const {}
 
 } // namespace t_motor_hardware_interface

@@ -23,6 +23,56 @@
 #ifndef T_MOTOR_HARDWARE_INTERFACE__T_MOTOR_HARDWARE_INTERFACE_HPP_
 #define T_MOTOR_HARDWARE_INTERFACE__T_MOTOR_HARDWARE_INTERFACE_HPP_
 
-namespace t_motor_hardware_interface {} // namespace t_motor_hardware_interface
+#include <hardware_interface/system_interface.hpp>
+#include <rclcpp/rclcpp.hpp>
+#include <vector>
+
+#include "t_motor_hardware_interface/visibility_control.h"
+
+namespace t_motor_hardware_interface {
+class TMotorHardware : public hardware_interface::SystemInterface, rclcpp::Node {
+public:
+  TMotorHardware();
+  ~TMotorHardware() = default;
+
+  /**
+   * @fn on_init
+   * @brief Initialize the hardware interface
+   * @param info Hardware information
+   * @return CallbackReturn Return code of the initialization [SUCCESS, ERROR]
+   */
+  T_MOTOR_HARDWARE_INTERFACE_PUBLIC
+  hardware_interface::CallbackReturn on_init(const hardware_interface::HardwareInfo &info) override;
+
+  /**
+   * @fn export_state_interfaces
+   * @brief Export the state interfaces
+   * @return std::vector<hardware_interface::StateInterface> State interfaces
+   */
+  T_MOTOR_HARDWARE_INTERFACE_PUBLIC
+  std::vector<hardware_interface::StateInterface> export_state_interfaces() override;
+
+  T_MOTOR_HARDWARE_INTERFACE_PUBLIC
+  std::vector<hardware_interface::CommandInterface> export_command_interfaces() override;
+
+  T_MOTOR_HARDWARE_INTERFACE_PUBLIC
+  hardware_interface::CallbackReturn
+  on_activate(const rclcpp_lifecycle::State &previous_state) override;
+
+  T_MOTOR_HARDWARE_INTERFACE_PUBLIC
+  hardware_interface::CallbackReturn
+  on_deactivate(const rclcpp_lifecycle::State &previous_state) override;
+
+  T_MOTOR_HARDWARE_INTERFACE_PUBLIC
+  hardware_interface::return_type read(const rclcpp::Time &time,
+                                       const rclcpp::Duration &period) override;
+
+  T_MOTOR_HARDWARE_INTERFACE_PUBLIC
+  hardware_interface::return_type write(const rclcpp::Time &time,
+                                        const rclcpp::Duration &period) override;
+
+private:
+};
+} // namespace t_motor_hardware_interface
 
 #endif // T_MOTOR_HARDWARE_INTERFACE__T_MOTOR_HARDWARE_INTERFACE_HPP_
