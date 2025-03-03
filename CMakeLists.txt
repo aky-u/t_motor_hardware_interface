@@ -28,6 +28,7 @@ add_library(${PROJECT_NAME} SHARED
 
   src/t_motor/can_interface.cpp
   src/t_motor/t_motor_base.cpp
+  src/t_motor/t_motor_servo.cpp
 )
 
 target_include_directories(${PROJECT_NAME} PRIVATE include)
