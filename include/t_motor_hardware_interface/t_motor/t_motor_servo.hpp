@@ -40,12 +40,48 @@ namespace t_motor_hardware_interface {
  */
 class TMotorServo : public TMotorBase {
 public:
-  TMotorServo();
+  TMotorServo(uint32_t motor_id = 0, const std::string &interface = "can0");
   ~TMotorServo() = default;
 
-  void comm_can_set_pos(uint8_t controller_id, float pos) const;
-  void comm_can_set_origin_here(uint8_t controller_id) const;
-  void comm_can_set_pos_spd(uint8_t controller_id, float pos, float spd) const;
+  /**
+   * @brief Set the duty cycle of the motor
+   */
+  void setDuty(float duty) const;
+
+  /**
+   * @brief Set the current of the motor
+   */
+  void setCurrent(float current) const;
+
+  /**
+   * @brief Set the current and brake of the motor
+   */
+  void setCurrentBrake(float current, float brake) const;
+
+  /**
+   * @brief Set the RPM of the motor
+   */
+  void setRPM(float rpm) const;
+
+  /**
+   * @brief Set the position of the motor
+   */
+  void setPosition(float position) const;
+
+  /**
+   * @brief Set the origin of the motor
+   */
+  void setOriginHere() const;
+
+  /**
+   * @brief Set the position and speed of the motor
+   */
+  void setPositionSpeed(float position, float speed) const;
+
+  /**
+   * @brief Read the state of the motor
+   */
+  void readState() const override;
 }; // class TMotorServo
 
 } // namespace t_motor_hardware_interface

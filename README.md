@@ -26,12 +26,27 @@ colcon build --symlink-install
 source install/setup.bash
 ```
 
-## How to launch
+## How to test
+
+### Set up virtual CAN
+
+```bash
+sudo modprobe vcan
+sudo ip link add dev vcan0 type vcan
+sudo ip link set vcan0 txqueuelen 1000
+sudo ip link set up vcan0
+```
 
 ### Enable CAN communication
 
 ```bash
 sudo ip link set can0 up type can bitrate 1000000
+```
+
+### Send can command
+
+```bash
+cansend vcan0 123#0102030405060708
 ```
 
 ## AK Series

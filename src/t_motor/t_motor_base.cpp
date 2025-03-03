@@ -29,22 +29,7 @@
 
 namespace t_motor_hardware_interface {
 
-TMotorBase::TMotorBase() {}
-
-void TMotorBase::comm_can_transmit_eid(uint32_t controller_id, const uint8_t *data,
-                                       uint8_t len) const {}
-
-void TMotorBase::buffer_append_int32(uint8_t *buffer, int32_t number, int32_t *index) const {}
-
-void TMotorBase::buffer_append_uint16(uint8_t *buffer, uint16_t number, int32_t *index) const {}
-
-void TMotorBase::comm_can_set_duty(uint8_t controller_id, float duty_cycle) const {}
-
-void TMotorBase::comm_can_set_current(uint8_t controller_id, float current) const {}
-
-void TMotorBase::comm_can_set_current_brake(uint8_t controller_id, float current,
-                                            float brake) const {}
-
-void TMotorBase::comm_can_set_rpm(uint8_t controller_id, float rpm) const {}
+TMotorBase::TMotorBase(uint32_t motor_id, const std::string &interface)
+    : id(motor_id), can_interface(interface) {}
 
 } // namespace t_motor_hardware_interface

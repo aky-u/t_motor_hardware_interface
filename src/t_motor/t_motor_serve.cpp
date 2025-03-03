@@ -25,28 +25,28 @@
 
 // https://www.cubemars.com/images/file/20240611/1718085712815162.pdf
 
-#ifndef T_MOTOR_HARDWARE_INTERFACE__T_MOTOR__T_MOTOR_BASE_HPP_
-#define T_MOTOR_HARDWARE_INTERFACE__T_MOTOR__T_MOTOR_BASE_HPP_
-
-#include <cstdint>
-
-#include "t_motor_hardware_interface/t_motor/can_interface.hpp"
 #include "t_motor_hardware_interface/t_motor/can_packet.hpp"
+#include "t_motor_hardware_interface/t_motor/t_motor_servo.hpp"
 
 namespace t_motor_hardware_interface {
 
-class TMotorBase {
-public:
-  TMotorBase(uint32_t motor_id = 0, const std::string &interface = "can0");
-  ~TMotorBase() = default;
+TMotorServo::TMotorServo(uint32_t motor_id, const std::string &interface)
+    : TMotorBase(motor_id, interface) {};
 
-  // pure virtual functions
-  virtual void readState() const = 0;
+void TMotorServo::setDuty(float duty) const {}
 
-protected:
-  uint32_t id;
-  CANInterface can_interface;
-}; // class TMotorBase
+void TMotorServo::setCurrent(float current) const {}
+
+void TMotorServo::setCurrentBrake(float current, float brake) const {}
+
+void TMotorServo::setRPM(float rpm) const {}
+
+void TMotorServo::setPosition(float pos) const {}
+
+void TMotorServo::setOriginHere() const {}
+
+void TMotorServo::setPositionSpeed(float pos, float spd) const {}
+
+void TMotorServo::readState() const {}
+
 } // namespace t_motor_hardware_interface
-
-#endif // T_MOTOR_HARDWARE_INTERFACE__T_MOTOR__T_MOTOR_BASE_HPP_
