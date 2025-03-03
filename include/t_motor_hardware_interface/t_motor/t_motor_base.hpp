@@ -40,8 +40,9 @@ public:
   TMotorBase(uint32_t motor_id = 0, const std::string &interface = "can0");
   ~TMotorBase() = default;
 
-  // pure virtual functions
-  virtual void readState() const = 0;
+  ERROR_CODE readState();
+
+  std::string getErrorString() const;
 
 protected:
   // CAN communication

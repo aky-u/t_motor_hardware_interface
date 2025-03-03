@@ -25,8 +25,8 @@
 
 // https://www.cubemars.com/images/file/20240611/1718085712815162.pdf
 
-#include "t_motor_hardware_interface/t_motor/can_packet.hpp"
 #include "t_motor_hardware_interface/t_motor/t_motor_servo.hpp"
+#include "t_motor_hardware_interface/t_motor/can_packet.hpp"
 
 namespace t_motor_hardware_interface {
 
@@ -46,7 +46,5 @@ void TMotorServo::setPosition(float pos) const {}
 void TMotorServo::setOriginHere() const {}
 
 void TMotorServo::setPositionSpeed(float pos, float spd) const {}
-
-void TMotorServo::readState() const {}
 
 } // namespace t_motor_hardware_interface

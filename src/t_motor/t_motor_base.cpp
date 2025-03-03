@@ -32,4 +32,55 @@ namespace t_motor_hardware_interface {
 TMotorBase::TMotorBase(uint32_t motor_id, const std::string &interface)
     : id_(motor_id), can_interface_(interface) {}
 
+ERROR_CODE TMotorBase::readState() {
+  struct can_frame frame;
+  if (can_interface_.readCANMessage(frame)) {
+    //
+  }
+}
+
+std::string TMotorBase::getErrorString() const {
+  switch (error_) {
+  case ERROR_CODE::NONE:
+    return "No error";
+  case ERROR_CODE::OVER_VOLTAGE:
+    return "Over voltage";
+  case ERROR_CODE::UNDER_VOLTAGE:
+    return "Under voltage";
+  case ERROR_CODE::DRV:
+    return "Driver fault";
+  case ERROR_CODE::ABS_OVER_CURRENT:
+    return "Motor over current";
+  case ERROR_CODE::OVER_TEMP_FET:
+    return "MOS over temperature";
+  case ERROR_CODE::OVER_TEMP_MOTOR:
+    return "Motor over temperature";
+  case ERROR_CODE::GATE_DRIVER_OVER_VOLTAGE:
+    return "Driver over voltage";
+  case ERROR_CODE::GATE_DRIVER_UNDER_VOLTAGE:
+    return "Driver under voltage";
+  case ERROR_CODE::MCU_UNDER_VOLTAGE:
+    return "MCU under voltage";
+  case ERROR_CODE::BOOTING_FROM_WATCHDOG_RESET:
+    return "Booting from watchdog reset";
+  case ERROR_CODE::ENCODER_SPI:
+    return "SPI encoder fault";
+  case ERROR_CODE::ENCODER_SINCOS_BELOW_MIN_AMPLITUDE:
+    return "Encoder below minimum amplitude";
+  case ERROR_CODE::ENCODER_SINCOS_ABOVE_MAX_AMPLITUDE:
+    return "Encoder above maximum amplitude";
+  case ERROR_CODE::FLASH_CORRUPTION:
+    return "Flash fault";
+  case ERROR_CODE::HIGH_OFFSET_CURRENT_SENSOR_1:
+    return "Current sampling channel 1 fault";
+  case ERROR_CODE::HIGH_OFFSET_CURRENT_SENSOR_2:
+    return "Current sampling channel 2 fault";
+  case ERROR_CODE::HIGH_OFFSET_CURRENT_SENSOR_3:
+    return "Current sampling channel 3 fault";
+  case ERROR_CODE::UNBALANCED_CURRENTS:
+    return "Unbalanced currents";
+  default:
+    return "Unknown error";
+  } // switch
+} // getErrorString
 } // namespace t_motor_hardware_interface

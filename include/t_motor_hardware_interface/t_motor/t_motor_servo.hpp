@@ -78,10 +78,6 @@ public:
    */
   void setPositionSpeed(float position, float speed) const;
 
-  /**
-   * @brief Read the state of the motor
-   */
-  void readState() const override;
 }; // class TMotorServo
 
 } // namespace t_motor_hardware_interface
