@@ -32,11 +32,20 @@ namespace t_motor_hardware_interface {
 TMotorBase::TMotorBase(uint32_t motor_id, const std::string &interface)
     : id_(motor_id), can_interface_(interface) {}
 
-ERROR_CODE TMotorBase::readState() {
+void TMotorBase::readState() {
   struct can_frame frame;
-  if (can_interface_.readCANMessage(frame)) {
-    //
+  if (!can_interface_.readCANMessage(frame)) {
+    // Error reading CAN message
+    return;
   }
+
+  // Check if the received message is from the motor
+  if (frame.can_id != id_) {
+    // Message is not from the motor
+    return;
+  }
+
+  // Parse the received message
 }
 
 std::string TMotorBase::getErrorString() const {

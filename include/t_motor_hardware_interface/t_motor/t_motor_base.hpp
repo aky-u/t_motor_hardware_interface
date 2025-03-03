@@ -40,7 +40,7 @@ public:
   TMotorBase(uint32_t motor_id = 0, const std::string &interface = "can0");
   ~TMotorBase() = default;
 
-  ERROR_CODE readState();
+  void readState();
 
   std::string getErrorString() const;
 
