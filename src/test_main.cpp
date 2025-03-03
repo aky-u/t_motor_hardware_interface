@@ -30,36 +30,14 @@
 
 #include <iostream>
 
-#include "t_motor_hardware_interface/t_motor/can_interface.hpp"
+#include "t_motor_hardware_interface/t_motor/t_motor_servo.hpp"
 
 using namespace t_motor_hardware_interface;
 
 int main() {
-  CANInterface can_interface("vcan0");
+  TMotorServo servo(0, "vcan0");
 
-  if (!can_interface.initialize()) {
-    return 1;
-  }
-
-  // packet data
-  uint8_t data[8] = {0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08};
-
-  // send packet
-  if (!can_interface.sendCANMessage(0x123, data, 8)) {
-    std::cerr << "Failed to send CAN message!" << std::endl;
-    return 1;
-  }
-
-  // receive packet
-  struct can_frame frame;
-  if (can_interface.readCANMessage(frame)) {
-    std::cout << "Received CAN message with ID: " << frame.can_id << std::endl;
-    std::cout << "Data: ";
-    for (int i = 0; i < frame.can_dlc; i++) {
-      std::cout << std::hex << (int)frame.data[i] << " ";
-    }
-    std::cout << std::endl;
-  }
+  servo.readState();
 
   return 0;
 }

@@ -25,12 +25,28 @@
 
 // https://www.cubemars.com/images/file/20240611/1718085712815162.pdf
 
+#include <iostream>
+
 #include "t_motor_hardware_interface/t_motor/t_motor_base.hpp"
 
 namespace t_motor_hardware_interface {
 
 TMotorBase::TMotorBase(uint32_t motor_id, const std::string &interface)
-    : id_(motor_id), can_interface_(interface) {}
+    : id_(motor_id), can_interface_(interface) {
+  // Initialize motor state
+  position_ = 0.0;
+  velocity_ = 0.0;
+  acceleration_ = 0.0;
+  current_ = 0.0;
+  temperature_ = 0.0;
+  error_ = ERROR_CODE::NONE;
+
+  // Initialize CAN interface
+  if (!can_interface_.initialize()) {
+    // Print erro with interface name
+    std::cerr << "Failed to initialize CAN interface: " << interface << std::endl;
+  }
+}
 
 void TMotorBase::readState() {
   struct can_frame frame;

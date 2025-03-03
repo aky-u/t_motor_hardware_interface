@@ -34,30 +34,30 @@
 namespace t_motor_hardware_interface {
 
 CANInterface::CANInterface(const std::string &interface)
-    : can_interface_name(interface), socket_fd(-1) {}
+    : can_interface_name_(interface), socket_fd_(-1) {}
 
 CANInterface::~CANInterface() {
-  if (socket_fd >= 0) {
-    close(socket_fd);
+  if (socket_fd_ >= 0) {
+    close(socket_fd_);
   }
 }
 
 bool CANInterface::initialize() {
-  socket_fd = socket(PF_CAN, SOCK_RAW, CAN_RAW);
-  if (socket_fd < 0) {
+  socket_fd_ = socket(PF_CAN, SOCK_RAW, CAN_RAW);
+  if (socket_fd_ < 0) {
     std::cerr << "Error opening CAN socket!" << std::endl;
     return false;
   }
 
-  std::strncpy(ifr.ifr_name, can_interface_name.c_str(), IFNAMSIZ - 1);
-  if (ioctl(socket_fd, SIOCGIFINDEX, &ifr) < 0) {
+  std::strncpy(ifr_.ifr_name, can_interface_name_.c_str(), IFNAMSIZ - 1);
+  if (ioctl(socket_fd_, SIOCGIFINDEX, &ifr_) < 0) {
     std::cerr << "Error getting CAN interface index!" << std::endl;
     return false;
   }
 
-  addr.can_family = AF_CAN;
-  addr.can_ifindex = ifr.ifr_ifindex;
-  if (bind(socket_fd, (struct sockaddr *)&addr, sizeof(addr)) < 0) {
+  addr_.can_family = AF_CAN;
+  addr_.can_ifindex = ifr_.ifr_ifindex;
+  if (bind(socket_fd_, (struct sockaddr *)&addr_, sizeof(addr_)) < 0) {
     std::cerr << "Error binding CAN socket!" << std::endl;
     return false;
   }
@@ -72,7 +72,7 @@ bool CANInterface::sendCANMessage(uint32_t can_id, const uint8_t *data, uint8_t 
   frame.can_dlc = len;
   std::memcpy(frame.data, data, len);
 
-  if (write(socket_fd, &frame, sizeof(frame)) != sizeof(frame)) {
+  if (write(socket_fd_, &frame, sizeof(frame)) != sizeof(frame)) {
     std::cerr << "Error sending CAN message!" << std::endl;
     return false;
   }
@@ -81,7 +81,7 @@ bool CANInterface::sendCANMessage(uint32_t can_id, const uint8_t *data, uint8_t 
 }
 
 bool CANInterface::readCANMessage(struct can_frame &frame) {
-  if (read(socket_fd, &frame, sizeof(frame)) < 0) {
+  if (read(socket_fd_, &frame, sizeof(frame)) < 0) {
     std::cerr << "Error reading CAN message!" << std::endl;
     return false;
   }

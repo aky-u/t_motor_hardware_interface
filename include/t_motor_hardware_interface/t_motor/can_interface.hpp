@@ -40,10 +40,10 @@ namespace t_motor_hardware_interface {
 
 class CANInterface {
 private:
-  int socket_fd;
-  struct sockaddr_can addr;
-  struct ifreq ifr;
-  std::string can_interface_name;
+  int socket_fd_;
+  struct sockaddr_can addr_;
+  struct ifreq ifr_;
+  std::string can_interface_name_;
 
 public:
   explicit CANInterface(const std::string &interface = "can0");
