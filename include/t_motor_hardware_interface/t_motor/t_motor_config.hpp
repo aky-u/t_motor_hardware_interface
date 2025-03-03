@@ -25,36 +25,42 @@
 
 // https://www.cubemars.com/images/file/20240611/1718085712815162.pdf
 
-#ifndef T_MOTOR_HARDWARE_INTERFACE__T_MOTOR__T_MOTOR_BASE_HPP_
-#define T_MOTOR_HARDWARE_INTERFACE__T_MOTOR__T_MOTOR_BASE_HPP_
-
-#include <cstdint>
-
-#include "t_motor_hardware_interface/t_motor/can_interface.hpp"
-#include "t_motor_hardware_interface/t_motor/can_packet.hpp"
+#ifndef T_MOTOR_HARDWARE_INTERFACE__T_MOTOR__CONFIG_HPP_
+#define T_MOTOR_HARDWARE_INTERFACE__T_MOTOR__CONFIG_HPP_
 
 namespace t_motor_hardware_interface {
 
-class TMotorBase {
-public:
-  TMotorBase(uint32_t motor_id = 0, const std::string &interface = "can0");
-  ~TMotorBase() = default;
+/**
+ * @struct TMotorConfig
+ * @brief Configuration parameters for the motor
+ */
+struct TMotorConfig {
+  int min_position;  // Minimum position limit
+  int max_position;  // Maximum position limit
+  int min_velocity;  // Minimum velocity limit
+  int max_velocity;  // Maximum velocity limit
+  int min_current;   // Minimum current limit
+  int max_current;   // Maximum current limit
+  int min_torque;    // Minimum torque limit
+  int max_torque;    // Maximum torque limit
+  double kt;         //
+  double gear_ratio; // Gear ratio
+};
 
-  // pure virtual functions
-  virtual void readState() const = 0;
+// Default configuration parameters
+// TODO: Set randomly for now
+const TMotorConfig AK_80_8 = {
+    .min_position = -32000,
+    .max_position = 32000,
+    .min_velocity = -32000,
+    .max_velocity = 32000,
+    .min_current = -32000,
+    .max_current = 32000,
+    .min_torque = -32000,
+    .max_torque = 32000,
+    .kt = 0.0,
+    .gear_ratio = 0.0,
+};
 
-protected:
-  // CAN communication
-  uint32_t id;
-  CANInterface can_interface;
-
-  // Motor state
-  float position;
-  float velocity;
-  float current;
-  float temperature;
-
-}; // class TMotorBase
 } // namespace t_motor_hardware_interface
-
-#endif // T_MOTOR_HARDWARE_INTERFACE__T_MOTOR__T_MOTOR_BASE_HPP_
+#endif // T_MOTOR_HARDWARE_INTERFACE__T_MOTOR__CONFIG_HPP_
