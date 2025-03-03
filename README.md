@@ -31,3 +31,11 @@ source install/setup.bash
 ### AK80-8
 
 [Here](https://www.cubemars.com/goods-1151-AK80-8.html) you can find a link for the motor.
+
+## Related works
+
+- <https://github.com/neurobionics/TMotorCANControl>
+
+- <https://github.com/dfki-ric-underactuated-lab/mini-cheetah-tmotor-python-can>
+
+- <https://github.com/SherbyRobotics/tmotor_ros>
