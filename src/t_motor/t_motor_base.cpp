@@ -30,6 +30,6 @@
 namespace t_motor_hardware_interface {
 
 TMotorBase::TMotorBase(uint32_t motor_id, const std::string &interface)
-    : id(motor_id), can_interface(interface) {}
+    : id_(motor_id), can_interface_(interface) {}
 
 } // namespace t_motor_hardware_interface

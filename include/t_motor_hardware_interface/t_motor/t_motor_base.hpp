@@ -45,15 +45,16 @@ public:
 
 protected:
   // CAN communication
-  uint32_t id;
-  CANInterface can_interface;
+  uint32_t id_;
+  CANInterface can_interface_;
 
   // Motor state
-  float position;
-  float velocity;
-  float current;
-  float temperature;
-
+  float position_;
+  float velocity_;
+  float acceleration_;
+  float current_;
+  float temperature_;
+  ERROR_CODE error_;
 }; // class TMotorBase
 } // namespace t_motor_hardware_interface
 
