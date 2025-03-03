@@ -32,6 +32,7 @@
 
 #include "t_motor_hardware_interface/t_motor/can_interface.hpp"
 #include "t_motor_hardware_interface/t_motor/can_packet.hpp"
+#include "t_motor_hardware_interface/t_motor/t_motor_config.hpp"
 
 namespace t_motor_hardware_interface {
 
@@ -42,12 +43,17 @@ public:
 
   void readState();
 
+  void updateState();
+
   std::string getErrorString() const;
 
 protected:
   // CAN communication
   uint32_t id_;
   CANInterface can_interface_;
+
+  // Motor configuration
+  TMotorConfig config_;
 
   // Motor state
   float position_;
