@@ -25,15 +25,34 @@
 
 // https://www.cubemars.com/images/file/20240611/1718085712815162.pdf
 
-#include "t_motor_hardware_interface/t_motor/t_motor_servo.hpp"
+#include <cstring>
+
+#include "t_motor_hardware_interface/t_motor/can_interface.hpp"
 #include "t_motor_hardware_interface/t_motor/can_packet.hpp"
+#include "t_motor_hardware_interface/t_motor/t_motor_servo.hpp"
 
 namespace t_motor_hardware_interface {
 
 TMotorServo::TMotorServo(uint32_t motor_id, const std::string &interface)
     : TMotorBase(motor_id, interface) {};
 
-void TMotorServo::setDuty(float duty) const {}
+void TMotorServo::setDuty(float duty) const {
+  if (duty > 1.0f)
+    duty = 1.0f;
+  if (duty < -1.0f)
+    duty = -1.0f;
+
+  // scaling
+  int32_t duty_scaled = static_cast<int32_t>(duty * 100000.0f);
+
+  // Create CAN packet
+  uint8_t data[4];
+  std::memcpy(data, &duty_scaled, sizeof(duty_scaled));
+
+  uint32_t can_id = id_ | (static_cast<uint32_t>(CAN_PACKET_ID::SET_DUTY) << 8);
+
+  can_interface_.sendCANMessage(can_id, data, sizeof(data));
+}
 
 void TMotorServo::setCurrent(float current) const {}
 

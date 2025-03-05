@@ -35,9 +35,11 @@
 using namespace t_motor_hardware_interface;
 
 int main() {
-  TMotorServo servo(0, "vcan0");
+  TMotorServo servo(0, "slcan0");
 
-  servo.readState();
+  // servo.readState();
+
+  servo.setDuty(0.0f);
 
   return 0;
 }

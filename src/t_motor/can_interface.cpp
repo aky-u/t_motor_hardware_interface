@@ -65,7 +65,7 @@ bool CANInterface::initialize() {
   return true;
 }
 
-bool CANInterface::sendCANMessage(uint32_t can_id, const uint8_t *data, uint8_t len) {
+bool CANInterface::sendCANMessage(uint32_t can_id, const uint8_t *data, uint8_t len) const {
   struct can_frame frame;
   std::memset(&frame, 0, sizeof(frame));
   frame.can_id = can_id;
@@ -80,7 +80,7 @@ bool CANInterface::sendCANMessage(uint32_t can_id, const uint8_t *data, uint8_t 
   return true;
 }
 
-bool CANInterface::readCANMessage(struct can_frame &frame) {
+bool CANInterface::readCANMessage(struct can_frame &frame) const {
   if (read(socket_fd_, &frame, sizeof(frame)) < 0) {
     std::cerr << "Error reading CAN message!" << std::endl;
     return false;

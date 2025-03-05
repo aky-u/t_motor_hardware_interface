@@ -49,6 +49,16 @@ sudo ip link set can0 up type can bitrate 1000000
 cansend vcan0 123#0102030405060708
 ```
 
+## How to connect T-Motor
+
+### Activate can
+
+```bash
+sudo modprobe slcan
+sudo slcand -o -s8 -t hw -S 3000000 /dev/ttyUSB0 slcan0
+sudo ip link set up slcan0
+```
+
 ## AK Series
 
 ### AK80-8

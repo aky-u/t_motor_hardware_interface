@@ -50,8 +50,8 @@ public:
   ~CANInterface();
 
   bool initialize();
-  bool sendCANMessage(uint32_t can_id, const uint8_t *data, uint8_t len);
-  bool readCANMessage(struct can_frame &frame);
+  bool sendCANMessage(uint32_t can_id, const uint8_t *data, uint8_t len) const;
+  bool readCANMessage(struct can_frame &frame) const;
 }; // class CANInterface
 
 } // namespace t_motor_hardware_interface
