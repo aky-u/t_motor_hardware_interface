@@ -36,20 +36,24 @@
 using namespace t_motor_hardware_interface;
 
 int main() {
-  // canc id 104
-  TMotorServo servo(0x65, "slcan0");
-
-  for (int i = 0; i < 9; i++) {
-    if (!servo.setZeroPosition()) {
-      std::cerr << "Failed to set zero position" << std::endl;
-      return 1;
-    }
-    if (!servo.powerOn()) {
-      std::cerr << "Failed to power on the motor" << std::endl;
-      return 1;
-    }
-
-    usleep(10000);
+  CANInterface can("slcan0");
+  if (!can.initialize()) {
+    std::cerr << "Failed to initialize CAN interface!" << std::endl;
+    return 0;
   }
+
+  std::cout << "Scanning for active CAN IDs..." << std::endl;
+
+  for (uint32_t id = 0x01; id <= 0x1FF; id++) {
+    TMotorServo motor(id, "slcan0");
+    if (!motor.setDuty(0.5)) {
+      continue;
+    }
+
+    usleep(50000); // 50ms 待つ
+  }
+
+  std::cout << "No motor found on CAN bus!" << std::endl;
+
   return 0;
 }

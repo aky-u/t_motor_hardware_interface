@@ -36,22 +36,24 @@ namespace t_motor_hardware_interface {
 TMotorServo::TMotorServo(uint32_t motor_id, const std::string &interface)
     : TMotorBase(motor_id, interface) {};
 
-void TMotorServo::setDuty(float duty) const {
+bool TMotorServo::setDuty(float duty) const {
   if (duty > 1.0f)
     duty = 1.0f;
   if (duty < -1.0f)
     duty = -1.0f;
 
-  // scaling
   int32_t duty_scaled = static_cast<int32_t>(duty * 100000.0f);
-
-  // Create CAN packet
-  uint8_t data[8];
-  std::memcpy(data, &duty_scaled, sizeof(duty_scaled));
+  uint8_t data[4];
+  data[0] = (duty_scaled >> 24) & 0xFF;
+  data[1] = (duty_scaled >> 16) & 0xFF;
+  data[2] = (duty_scaled >> 8) & 0xFF;
+  data[3] = duty_scaled & 0xFF;
 
   uint32_t can_id = id_ | (static_cast<uint32_t>(CAN_PACKET_ID::SET_DUTY) << 8);
 
   can_interface_.sendCANMessage(can_id, data, sizeof(data));
+
+  return true;
 }
 
 void TMotorServo::setCurrent(float current) const {}

@@ -46,7 +46,7 @@ public:
   /**
    * @brief Set the duty cycle of the motor
    */
-  void setDuty(float duty) const;
+  bool setDuty(float duty) const;
 
   /**
    * @brief Set the current of the motor

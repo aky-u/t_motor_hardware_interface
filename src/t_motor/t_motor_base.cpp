@@ -52,12 +52,7 @@ bool TMotorBase::setZeroPosition() const {
   // Create CAN packet
   uint8_t data[8] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFE};
 
-  if (!can_interface_.sendCANMessage(id_, data, sizeof(data))) {
-    // Error sending CAN message
-    return false;
-  }
-
-  return true;
+  return can_interface_.sendCANMessage(id_, data, sizeof(data));
 }
 
 bool TMotorBase::powerOn() const {
