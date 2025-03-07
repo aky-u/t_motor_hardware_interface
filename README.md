@@ -72,3 +72,5 @@ sudo ip link set up slcan0
 - <https://github.com/dfki-ric-underactuated-lab/mini-cheetah-tmotor-python-can>
 
 - <https://github.com/SherbyRobotics/tmotor_ros>
+
+- <https://github.com/OpenFieldAutomation-OFA/cubemars_hardware/tree/main>
