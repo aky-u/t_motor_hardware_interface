@@ -74,3 +74,7 @@ sudo ip link set up slcan0
 - <https://github.com/SherbyRobotics/tmotor_ros>
 
 - <https://github.com/OpenFieldAutomation-OFA/cubemars_hardware/tree/main>
+
+## Trouble shooting
+
+<https://www.cubemars.com/article-330-If+Motor+Failed+Entering+Both+Modes.html>
