@@ -48,11 +48,28 @@ TMotorBase::TMotorBase(uint32_t motor_id, const std::string &interface)
   }
 }
 
-void TMotorBase::powerOn() const {
+bool TMotorBase::setZeroPosition() const {
+  // Create CAN packet
+  uint8_t data[8] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFE};
+
+  if (!can_interface_.sendCANMessage(id_, data, sizeof(data))) {
+    // Error sending CAN message
+    return false;
+  }
+
+  return true;
+}
+
+bool TMotorBase::powerOn() const {
   // Create CAN packet
   uint8_t data[8] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFC};
 
-  can_interface_.sendCANMessage(id_, data, sizeof(data));
+  if (!can_interface_.sendCANMessage(id_, data, sizeof(data))) {
+    // Error sending CAN message
+    return false;
+  }
+
+  return true;
 }
 
 void TMotorBase::readState() {

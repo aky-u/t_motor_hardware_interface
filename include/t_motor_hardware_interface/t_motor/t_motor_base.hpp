@@ -41,7 +41,9 @@ public:
   TMotorBase(uint32_t motor_id = 0, const std::string &interface = "can0");
   ~TMotorBase() = default;
 
-  void powerOn() const;
+  bool setZeroPosition() const;
+
+  bool powerOn() const;
 
   void readState();
 

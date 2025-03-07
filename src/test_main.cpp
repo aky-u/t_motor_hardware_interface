@@ -29,6 +29,7 @@
 // TODO: Move this to a separate package
 
 #include <iostream>
+#include <unistd.h>
 
 #include "t_motor_hardware_interface/t_motor/t_motor_servo.hpp"
 
@@ -36,15 +37,19 @@ using namespace t_motor_hardware_interface;
 
 int main() {
   // canc id 104
-  TMotorServo servo(0x2968, "slcan0");
+  TMotorServo servo(0x65, "slcan0");
 
-  // servo.readState();
+  for (int i = 0; i < 9; i++) {
+    if (!servo.setZeroPosition()) {
+      std::cerr << "Failed to set zero position" << std::endl;
+      return 1;
+    }
+    if (!servo.powerOn()) {
+      std::cerr << "Failed to power on the motor" << std::endl;
+      return 1;
+    }
 
-  servo.powerOn();
-
-  servo.setDuty(0.5f);
-
-  // servo.setPosition(0.1f);
-
+    usleep(10000);
+  }
   return 0;
 }

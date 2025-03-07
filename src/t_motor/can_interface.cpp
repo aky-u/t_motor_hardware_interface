@@ -66,14 +66,21 @@ bool CANInterface::initialize() {
 }
 
 bool CANInterface::sendCANMessage(uint32_t can_id, const uint8_t *data, uint8_t len) const {
+  if (socket_fd_ < 0) {
+    std::cerr << "CAN socket invalid: " << socket_fd_ << std::endl;
+    return false;
+  }
+
   struct can_frame frame;
   std::memset(&frame, 0, sizeof(frame));
   frame.can_id = can_id;
   frame.can_dlc = len;
   std::memcpy(frame.data, data, len);
 
-  if (write(socket_fd_, &frame, sizeof(frame)) != sizeof(frame)) {
-    std::cerr << "Error sending CAN message!" << std::endl;
+  ssize_t bytes_sent = write(socket_fd_, &frame, sizeof(frame));
+  if (bytes_sent != sizeof(frame)) {
+    perror("Error sending CAN message");
+    std::cerr << "Bytes sent: " << bytes_sent << std::endl;
     return false;
   }
 
