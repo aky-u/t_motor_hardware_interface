@@ -55,7 +55,7 @@ cansend vcan0 123#0102030405060708
 
 ```bash
 sudo modprobe slcan
-sudo slcand -o -s8 -t hw -S 3000000 /dev/ttyUSB0 slcan0
+sudo slcand -o -s8 -t hw -c /dev/ttyUSB0 slcan0
 sudo ip link set up slcan0
 ```
 
