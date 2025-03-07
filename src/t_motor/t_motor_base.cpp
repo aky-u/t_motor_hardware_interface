@@ -48,6 +48,13 @@ TMotorBase::TMotorBase(uint32_t motor_id, const std::string &interface)
   }
 }
 
+void TMotorBase::powerOn() const {
+  // Create CAN packet
+  uint8_t data[8] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFC};
+
+  can_interface_.sendCANMessage(id_, data, sizeof(data));
+}
+
 void TMotorBase::readState() {
   struct can_frame frame;
   if (!can_interface_.readCANMessage(frame)) {

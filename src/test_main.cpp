@@ -39,7 +39,9 @@ int main() {
 
   // servo.readState();
 
-  servo.setDuty(0.0f);
+  servo.powerOn();
+
+  // servo.setDuty(0.0f);
 
   return 0;
 }
