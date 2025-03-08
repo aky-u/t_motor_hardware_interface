@@ -43,6 +43,7 @@ CANInterface::~CANInterface() {
 }
 
 bool CANInterface::initialize() {
+  // Open a socket for the CAN interface
   socket_fd_ = socket(PF_CAN, SOCK_RAW, CAN_RAW);
   if (socket_fd_ < 0) {
     std::cerr << "Error opening CAN socket!" << std::endl;
@@ -66,11 +67,6 @@ bool CANInterface::initialize() {
 }
 
 bool CANInterface::sendCANMessage(uint32_t can_id, const uint8_t *data, uint8_t len) const {
-  if (socket_fd_ < 0) {
-    std::cerr << "CAN socket invalid: " << socket_fd_ << std::endl;
-    return false;
-  }
-
   struct can_frame frame;
   std::memset(&frame, 0, sizeof(frame));
   frame.can_id = can_id;
