@@ -32,9 +32,9 @@ source install/setup.bash
 
 ```bash
 sudo modprobe vcan
-sudo ip link add dev vcan0 type vcan
-sudo ip link set vcan0 txqueuelen 1000
-sudo ip link set up vcan0
+sudo ip link add dev can0 type vcan
+sudo ip link set can0 txqueuelen 1000
+sudo ip link set up can0
 ```
 
 ### Enable CAN communication
@@ -43,10 +43,17 @@ sudo ip link set up vcan0
 sudo ip link set can0 up type can bitrate 1000000
 ```
 
+### Run test code
+
+```bash
+:~$ candump c0
+  can0  001   [8]  FF FF FF FF FF FF FF FE
+```
+
 ### Send can command
 
 ```bash
-cansend vcan0 123#0102030405060708
+cansend can0 123#0102030405060708
 ```
 
 ## How to connect T-Motor
@@ -55,8 +62,8 @@ cansend vcan0 123#0102030405060708
 
 ```bash
 sudo modprobe slcan
-sudo slcand -o -s8 -t hw -c /dev/ttyUSB0 slcan0
-sudo ip link set up slcan0
+sudo slcand -o -s8 -t hw -c /dev/ttyUSB0 can0
+sudo ip link set up can0
 ```
 
 ## AK Series
