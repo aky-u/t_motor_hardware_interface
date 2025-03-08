@@ -36,7 +36,7 @@
 using namespace t_motor_hardware_interface;
 
 int main() {
-  CANInterface can("slcan0");
+  CANInterface can("can0");
   if (!can.initialize()) {
     std::cerr << "Failed to initialize CAN interface!" << std::endl;
     return 0;
@@ -45,7 +45,7 @@ int main() {
   std::cout << "Scanning for active CAN IDs..." << std::endl;
 
   for (uint32_t id = 0x01; id <= 0x1FF; id++) {
-    TMotorServo motor(id, "slcan0");
+    TMotorServo motor(id, "can0");
     if (!motor.setDuty(0.5)) {
       continue;
     }
