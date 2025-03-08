@@ -50,6 +50,10 @@ bool CANInterface::initialize() {
     return false;
   }
 
+  // Set socket options
+  int loopback = 0;
+  setsockopt(socket_fd_, SOL_CAN_RAW, CAN_RAW_LOOPBACK, &loopback, sizeof(loopback));
+
   std::strncpy(ifr_.ifr_name, can_interface_name_.c_str(), IFNAMSIZ - 1);
   if (ioctl(socket_fd_, SIOCGIFINDEX, &ifr_) < 0) {
     std::cerr << "Error getting CAN interface index!" << std::endl;
