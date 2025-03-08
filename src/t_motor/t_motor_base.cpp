@@ -50,14 +50,14 @@ TMotorBase::TMotorBase(uint32_t motor_id, const std::string &interface)
 
 bool TMotorBase::setZeroPosition() const {
   // Create CAN packet
-  uint8_t data[8] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFE};
+  auto data = SET_ZERO_POSITION_MSG;
 
   return can_interface_.sendCANMessage(id_, data, sizeof(data));
 }
 
 bool TMotorBase::powerOn() const {
   // Create CAN packet
-  uint8_t data[8] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFC};
+  auto data = POWER_ON_MSG;
 
   if (!can_interface_.sendCANMessage(id_, data, sizeof(data))) {
     // Error sending CAN message

@@ -56,6 +56,8 @@ protected:
   uint32_t id_;
   CANInterface can_interface_;
 
+  // wait message timeout
+
   // Motor configuration
   TMotorConfig config_;
 
