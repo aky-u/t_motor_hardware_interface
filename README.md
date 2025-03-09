@@ -48,6 +48,9 @@ sudo ip link set can0 up type can bitrate 1000000
 ```bash
 :~$ candump c0
   can0  001   [8]  FF FF FF FF FF FF FF FE
+  can0  001   [8]  7F FF 77 00 00 66 67 FF
+  can0  001   [8]  7F FF 7F F0 00 00 07 FF
+  can0  001   [8]  FF FF FF FF FF FF FF FD
 ```
 
 ### Send can command
