@@ -31,4 +31,15 @@ namespace t_motor_hardware_interface {
 
 SerialComm::SerialComm(const std::string &port_name)
     : IMotorComm(), fd_(-1), port_name_(port_name) {}
+
+SerialComm::~SerialComm() {}
+
+bool SerialComm::initialize() {}
+
+bool SerialComm::sendMessage(const uint32_t motor_id, const uint8_t *data,
+                             const uint8_t len) const {}
+
+bool SerialComm::readState(TMotorState &state) const {}
+
+bool SerialComm::readMessage(uint8_t *data, uint8_t &len) const {}
 } // namespace t_motor_hardware_interface
