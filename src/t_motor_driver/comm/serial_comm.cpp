@@ -25,6 +25,7 @@
 
 // https://www.cubemars.com/images/file/20240611/1718085712815162.pdf
 
+#include <boost/asio.hpp>
 #include <fcntl.h>
 #include <unistd.h>
 
@@ -33,7 +34,8 @@
 
 namespace t_motor_hardware_interface {
 
-SerialComm::SerialComm(const std::string &port_name) : IMotorComm(), port_name_(port_name) {}
+SerialComm::SerialComm(const std::string &port_name)
+    : IMotorComm(), port_name_(port_name), serial_port_(io_service_) {}
 
 SerialComm::~SerialComm() {
   if (serial_port_.is_open()) {
@@ -44,14 +46,14 @@ SerialComm::~SerialComm() {
 bool SerialComm::initialize() {
   try {
     serial_port_.open(port_name_);
-    serial_port_.set_option(boost::asio::serial_port_base::baud_rate(kSerialBaudRate));
-    serial_port_.set_option(boost::asio::serial_port_base::character_size(8));
-    serial_port_.set_option(
-        boost::asio::serial_port_base::stop_bits(boost::asio::serial_port_base::stop_bits::one));
-    serial_port_.set_option(
-        boost::asio::serial_port_base::parity(boost::asio::serial_port_base::parity::none));
+    serial_port_.set_option(boost::asio::serial_port_base::baud_rate(115200)); // Change baud rate
+    serial_port_.set_option(boost::asio::serial_port_base::character_size(8)); // Keep 8 data bits
+    serial_port_.set_option(boost::asio::serial_port_base::stop_bits(
+        boost::asio::serial_port_base::stop_bits::one)); // Try one stop bit
+    serial_port_.set_option(boost::asio::serial_port_base::parity(
+        boost::asio::serial_port_base::parity::none)); // No parity
     serial_port_.set_option(boost::asio::serial_port_base::flow_control(
-        boost::asio::serial_port_base::flow_control::none));
+        boost::asio::serial_port_base::flow_control::none)); // No flow control
   } catch (const boost::system::system_error &e) {
     std::cerr << "Error opening serial port: " << e.what() << std::endl;
     return false;
@@ -63,7 +65,24 @@ bool SerialComm::initialize() {
 bool SerialComm::sendMessage(const uint32_t motor_id, const uint8_t *data,
                              const uint8_t len) const {}
 
-bool SerialComm::readState(TMotorState &state) const {}
+bool SerialComm::readState(TMotorState &state) const {
+  uint8_t data[256];
+  uint8_t len = 0;
+  bool rm = readMessage(data, len);
+  return true;
+}
 
-bool SerialComm::readMessage(uint8_t *data, uint8_t &len) const {}
+bool SerialComm::readMessage(uint8_t *data, uint8_t &len) const {
+  // boost::asio::streambuf response;
+  // boost::asio::read_until(serial_port_, response, '\n');
+
+  // std::istream response_stream(&response);
+  // std::string response_str;
+  // std::getline(response_stream, response_str);
+
+  // len = response_str.length();
+  // std::memcpy(data, response_str.c_str(), len);
+
+  return true;
+}
 } // namespace t_motor_hardware_interface

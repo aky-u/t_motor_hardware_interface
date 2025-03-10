@@ -44,9 +44,9 @@ public:
 
   bool powerOn() const;
 
-  void readState() const;
+  bool readState() const;
 
-  void updateState();
+  bool updateState();
 
 protected:
   uint32_t motor_id_;

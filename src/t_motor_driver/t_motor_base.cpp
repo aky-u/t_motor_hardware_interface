@@ -29,6 +29,7 @@
 
 #include "t_motor_hardware_interface/t_motor_driver/comm/serial_comm.hpp"
 #include "t_motor_hardware_interface/t_motor_driver/t_motor_base.hpp"
+#include "t_motor_hardware_interface/t_motor_driver/t_motor_state.hpp"
 
 namespace t_motor_hardware_interface {
 
@@ -39,12 +40,20 @@ TMotorBase::TMotorBase(uint32_t motor_id, const std::string &interface) : motor_
   if (!motor_comm_->initialize()) {
     std::cerr << "Error initializing motor communication!" << std::endl;
   }
+
+  // Read the initial state of the motor
+  readState();
 }
 
 bool TMotorBase::setZeroPosition() const {}
 
 bool TMotorBase::powerOn() const {}
 
-void TMotorBase::readState() const {}
+bool TMotorBase::readState() const {
+  TMotorState state;
+  if (!motor_comm_->readState(state)) {
+    std::cerr << "Error reading motor state!" << std::endl;
+  }
+}
 
 } // namespace t_motor_hardware_interface
