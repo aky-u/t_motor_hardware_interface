@@ -20,6 +20,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+#include <cstdint>
+
 #include "t_motor_hardware_interface/servo_serial/crc16.hpp"
 
 namespace t_motor_hardware_interface {
