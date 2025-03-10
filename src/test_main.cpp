@@ -32,14 +32,14 @@
 #include <unistd.h>
 
 #include "t_motor_hardware_interface/servo_serial/serial_comm.hpp"
+#include "t_motor_hardware_interface/servo_serial/servo_serial.hpp"
 #include "t_motor_hardware_interface/t_motor_hardware_interface.hpp"
 
 using namespace t_motor_hardware_interface;
 
 int main() {
   std::cout << "Testing motor hardware interface..." << std::endl;
-  SerialComm serial_comm("/dev/ttyUSB0", 961200);
-
-  std::vector<uint8_t> data = {0x02, 0x01, 0x04, 0x40, 0x84, 0x03};
-  serial_comm.writeData(data);
+  ServoSerial servo_serial("/dev/ttyUSB0", 961200);
+  servo_serial.readMotorParameters();
+  return 0;
 }

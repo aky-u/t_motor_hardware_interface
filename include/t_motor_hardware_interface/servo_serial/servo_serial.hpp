@@ -23,6 +23,20 @@
 #ifndef T_MOTOR_HARDWARE_INTERFACE__SERVO_SERIAL__SERVO_SERIAL_HPP_
 #define T_MOTOR_HARDWARE_INTERFACE__SERVO_SERIAL__SERVO_SERIAL_HPP_
 
-namespace t_motor_hardware_interface {} // namespace t_motor_hardware_interface
+#include <string>
+
+#include "t_motor_hardware_interface/servo_serial/serial_comm.hpp"
+
+namespace t_motor_hardware_interface {
+class ServoSerial {
+public:
+  ServoSerial(const std::string &port, unsigned int baudrate);
+
+  bool readMotorParameters();
+
+private:
+  SerialComm serial_comm_;
+}; // class ServoSerial
+} // namespace t_motor_hardware_interface
 
 #endif // T_MOTOR_HARDWARE_INTERFACE__SERVO_SERIAL__SERVO_SERIAL_HPP_

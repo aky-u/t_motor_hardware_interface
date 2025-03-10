@@ -20,4 +20,16 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-namespace t_motor_hardware_interface {} // namespace t_motor_hardware_interface
+#include "t_motor_hardware_interface/servo_serial/servo_serial.hpp"
+#include "t_motor_hardware_interface/servo_serial/packet.hpp"
+
+namespace t_motor_hardware_interface {
+
+ServoSerial::ServoSerial(const std::string &port, unsigned int baudrate)
+    : serial_comm_(port, baudrate) {}
+
+bool ServoSerial::readMotorParameters() {
+  return serial_comm_.writeData(kCommandGetMotorParameters);
+}
+
+} // namespace t_motor_hardware_interface

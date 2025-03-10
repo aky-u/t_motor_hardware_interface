@@ -28,6 +28,7 @@ add_library(${PROJECT_NAME} SHARED
 
   src/servo_serial/crc16.cpp
   src/servo_serial/serial_comm.cpp
+  src/servo_serial/servo_serial.cpp
 )
 
 target_include_directories(${PROJECT_NAME} PRIVATE include)
