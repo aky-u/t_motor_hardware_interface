@@ -34,7 +34,7 @@ public:
   SerialComm(const std::string &port, unsigned int baudrate);
 
   bool writeData(const std::vector<uint8_t> &data) const;
-  std::vector<uint8_t> readData(const size_t size) const;
+  std::vector<uint8_t> readData() const;
 
 private:
   int fd_;

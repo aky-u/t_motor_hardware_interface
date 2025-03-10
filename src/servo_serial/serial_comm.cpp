@@ -34,6 +34,9 @@ namespace t_motor_hardware_interface {
 
 SerialComm::SerialComm(const std::string &port, unsigned int baudrate) : fd_(-1) {
   fd_ = open(port.c_str(), O_RDWR | O_NOCTTY | O_SYNC);
+  // Open non-blocking serial port
+  // fd_ = open(port.c_str(), O_RDWR | O_NOCTTY | O_NONBLOCK);
+  // fd_ = open(port.c_str(), O_RDWR | O_NOCTTY | O_NDELAY);
   if (fd_ < 0) {
     std::cerr << "Error: Could not open serial port " << port << std::endl;
   }
@@ -89,5 +92,34 @@ bool SerialComm::writeData(const std::vector<uint8_t> &data) const {
   }
 
   return true;
+}
+
+std::vector<uint8_t> SerialComm::readData() const {
+  std::vector<uint8_t> data;
+  uint8_t byte;
+
+  // check if there is data to read
+  if (fd_ < 0) {
+    std::cerr << "Error: Could not read data from serial port" << std::endl;
+    return data;
+  }
+
+  // Read until we have at least one byte
+  ssize_t bytes_read = 0;
+  while ((bytes_read = read(fd_, &byte, 1)) > 0) {
+    data.push_back(byte); // Add the byte to the data vector
+    std::cout << "Read byte: " << std::hex << static_cast<int>(byte) << std::endl;
+
+    if (byte == 0x03) {
+      break; // Stop reading if we reach the end byte
+    }
+  }
+
+  // Handle errors or empty read
+  if (bytes_read < 0) {
+    std::cerr << "Error: Failed to read data from serial port" << std::endl;
+  }
+
+  return data;
 }
 } // namespace t_motor_hardware_interface

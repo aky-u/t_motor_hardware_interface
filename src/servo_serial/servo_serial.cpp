@@ -20,8 +20,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "t_motor_hardware_interface/servo_serial/servo_serial.hpp"
+#include <iostream>
+
 #include "t_motor_hardware_interface/servo_serial/packet.hpp"
+#include "t_motor_hardware_interface/servo_serial/servo_serial.hpp"
 
 namespace t_motor_hardware_interface {
 
@@ -29,7 +31,21 @@ ServoSerial::ServoSerial(const std::string &port, unsigned int baudrate)
     : serial_comm_(port, baudrate) {}
 
 bool ServoSerial::readMotorParameters() {
-  return serial_comm_.writeData(kCommandGetMotorParameters);
+  bool write_success = serial_comm_.writeData(kCommandGetMotorParameters);
+  if (!write_success) {
+    std::cerr << "Error: Could not write data to serial port" << std::endl;
+    return false;
+  }
+
+  // read data
+  std::vector<uint8_t> data = serial_comm_.readData();
+
+  // print data
+  std::cout << "Received data: ";
+  for (const auto &byte : data) {
+    std::cout << std::hex << static_cast<int>(byte) << " ";
+  }
+  std::cout << std::endl;
 }
 
 } // namespace t_motor_hardware_interface
