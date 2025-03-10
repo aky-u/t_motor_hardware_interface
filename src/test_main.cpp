@@ -35,4 +35,8 @@
 
 using namespace t_motor_hardware_interface;
 
-int main() { std::cout << "Testing motor hardware interface..." << std::endl; }
+int main() {
+  std::cout << "Testing motor hardware interface..." << std::endl;
+
+  TMotorServo motor(1, "/dev/ttyUSB0");
+}

@@ -50,7 +50,7 @@ public:
 
 protected:
   uint32_t motor_id_;
-  std::unique_ptr<IMotorComm> motor_comm_;
+  // std::unique_ptr<IMotorComm> motor_comm_;
   TMotorState motor_state_;
 
 }; // class TMotorBase

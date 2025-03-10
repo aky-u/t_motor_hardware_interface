@@ -27,11 +27,14 @@
 
 #include <iostream>
 
+#include "t_motor_hardware_interface/t_motor_driver/comm/serial_comm.hpp"
 #include "t_motor_hardware_interface/t_motor_driver/t_motor_base.hpp"
 
 namespace t_motor_hardware_interface {
 
-TMotorBase::TMotorBase(uint32_t motor_id, const std::string &interface) {}
+TMotorBase::TMotorBase(uint32_t motor_id, const std::string &interface) : motor_id_(motor_id) {
+  //   motor_comm_ = std::make_unique<SerialComm>(interface);
+}
 
 bool TMotorBase::setZeroPosition() const {}
 
