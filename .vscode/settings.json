@@ -75,7 +75,9 @@
         "typeindex": "cpp",
         "typeinfo": "cpp",
         "variant": "cpp",
-        "*.ipp": "cpp"
+        "*.ipp": "cpp",
+        "coroutine": "cpp",
+        "source_location": "cpp"
     },
     "C_Cpp.errorSquiggles": "enabled"
 }

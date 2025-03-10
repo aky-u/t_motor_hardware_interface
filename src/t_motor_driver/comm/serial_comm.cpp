@@ -25,10 +25,10 @@
 
 // https://www.cubemars.com/images/file/20240611/1718085712815162.pdf
 
-#include <boost/asio.hpp>
 #include <cstring>
 #include <fcntl.h>
 #include <iostream>
+#include <termios.h>
 #include <unistd.h>
 
 #include "t_motor_hardware_interface/t_motor_driver/comm/serial_comm.hpp"
@@ -37,27 +37,64 @@
 namespace t_motor_hardware_interface {
 
 SerialComm::SerialComm(const std::string &port_name)
-    : IMotorComm(), port_name_(port_name), serial_port_(io_service_) {}
+    : IMotorComm(), port_name_(port_name), fd_(-1) {}
 
 SerialComm::~SerialComm() {
-  if (serial_port_.is_open()) {
-    serial_port_.close();
+  if (fd_ >= 0) {
+    close(fd_);
   }
 }
 
 bool SerialComm::initialize() {
-  try {
-    serial_port_.open(port_name_);
-    serial_port_.set_option(boost::asio::serial_port_base::baud_rate(115200)); // Change baud rate
-    serial_port_.set_option(boost::asio::serial_port_base::character_size(8)); // Keep 8 data bits
-    serial_port_.set_option(boost::asio::serial_port_base::stop_bits(
-        boost::asio::serial_port_base::stop_bits::one)); // Try one stop bit
-    serial_port_.set_option(boost::asio::serial_port_base::parity(
-        boost::asio::serial_port_base::parity::none)); // No parity
-    serial_port_.set_option(boost::asio::serial_port_base::flow_control(
-        boost::asio::serial_port_base::flow_control::none)); // No flow control
-  } catch (const boost::system::system_error &e) {
-    std::cerr << "Error opening serial port: " << e.what() << std::endl;
+  // Open the serial port
+  fd_ = open(port_name_.c_str(), O_RDWR | O_NOCTTY | O_SYNC);
+  if (fd_ < 0) {
+    std::cerr << "Error: Could not open serial port " << port_name_ << std::endl;
+    return false;
+  }
+
+  // Configure the port settings using termios
+  struct termios tty;
+  memset(&tty, 0, sizeof(tty));
+
+  if (tcgetattr(fd_, &tty) != 0) {
+    std::cerr << "Error: Unable to get terminal attributes!" << std::endl;
+    close(fd_);
+    return false;
+  }
+
+  // Set baud rate to 961200 (set with cfsetispeed and cfsetospeed)
+  // Since 961200 isn't in termios constants, we use cfsetspeed directly:
+  int custom_baud_rate = 961200;
+  cfsetispeed(&tty, custom_baud_rate);
+  cfsetospeed(&tty, custom_baud_rate);
+
+  // Set 8 data bits, no parity, and 1 stop bit
+  tty.c_cflag &= ~PARENB; // No parity
+  tty.c_cflag &= ~CSTOPB; // 1 stop bit
+  tty.c_cflag &= ~CSIZE;  // Clear data size
+  tty.c_cflag |= CS8;     // 8 data bits
+
+  // Set the number of control lines (disable RTS/CTS)
+  tty.c_cflag &= ~CRTSCTS; // Disable hardware flow control
+
+  // Set canonical mode (raw input/output)
+  tty.c_lflag &= ~ICANON; // Non-canonical mode (raw)
+  tty.c_lflag &= ~ECHO;   // Disable echo
+  tty.c_lflag &= ~ECHOE;  // Disable erase
+  tty.c_lflag &= ~ISIG;   // Disable signal generation
+
+  // Disable software flow control
+  tty.c_iflag &= ~(IXON | IXOFF | IXANY);
+
+  // Set minimum number of bytes to read
+  tty.c_cc[VMIN] = 1;
+  tty.c_cc[VTIME] = 0;
+
+  // Apply the settings
+  if (tcsetattr(fd_, TCSANOW, &tty) != 0) {
+    std::cerr << "Error: Unable to set terminal attributes!" << std::endl;
+    close(fd_);
     return false;
   }
 
@@ -76,16 +113,6 @@ bool SerialComm::readState(TMotorState &state) const {
   return true;
 }
 
-bool SerialComm::readMessage(uint8_t *data, uint8_t &len) const {
-  // Read data from serial port
-  // boost::asio::streambuf buf;
-  // boost::asio::read_until(serial_port_, buf, '\n');
-  // std::istream is(&buf);
-  // std::string line;
-  // std::getline(is, line);
-  // std::cout << "Received: " << line << std::endl;
-
-  return true;
-}
+bool SerialComm::readMessage(uint8_t *data, uint8_t &len) const {}
 
 } // namespace t_motor_hardware_interface

@@ -28,7 +28,6 @@
 #ifndef T_MOTOR_HARDWARE_INTERFACE__T_MOTOR_DRIVER__COM__SERIAL_COMM_HPP_
 #define T_MOTOR_HARDWARE_INTERFACE__T_MOTOR_DRIVER__COM__SERIAL_COMM_HPP_
 
-#include <boost/asio.hpp>
 #include <cstdint>
 #include <string>
 
@@ -50,8 +49,7 @@ public:
 
 private:
   std::string port_name_;
-  boost::asio::io_service io_service_;
-  boost::asio::serial_port serial_port_;
+  int fd_;
 
   bool readMessage(uint8_t *data, uint8_t &len) const override;
 }; // class SerialComm
