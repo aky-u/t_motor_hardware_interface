@@ -49,6 +49,10 @@ bool ServoSerial::readMotorParameters() {
 MotorState ServoSerial::parseMotorParameters(const std::vector<uint8_t> &data) const {
   MotorState motor_state;
   // Parse the data and fill in the motor state object
+
+  float mos_temperature = (data[4] << 8 | data[5]) / 100.0;
+  motor_state.setMosTemperature(mos_temperature);
+
   return motor_state;
 }
 

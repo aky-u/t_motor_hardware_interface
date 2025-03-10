@@ -32,6 +32,38 @@ public:
 
   void printMotorState() const;
 
+  // Getters
+  float getMosTemperature() const { return mos_temperature_; }
+  float getMotorTemperature() const { return motor_temperature_; }
+  float getOutputCurrent() const { return output_current_; }
+  float getInputCurrent() const { return input_current_; }
+  float getIdCurrent() const { return id_current_; }
+  float getIqCurrent() const { return iq_current_; }
+  float getThrottleValue() const { return throttle_value_; }
+  float getMotorSpeed() const { return motor_speed_; }
+  float getInputVoltage() const { return input_voltage_; }
+  float getMotorOuterLoopPosition() const { return motor_outer_loop_position_; }
+  int getMotorId() const { return motor_id_; }
+  float getVdVoltage() const { return vd_voltage_; }
+  float getVqVoltage() const { return vq_voltage_; }
+
+  // Setters
+  void setMosTemperature(float mos_temperature) { mos_temperature_ = mos_temperature; }
+  void setMotorTemperature(float motor_temperature) { motor_temperature_ = motor_temperature; }
+  void setOutputCurrent(float output_current) { output_current_ = output_current; }
+  void setInputCurrent(float input_current) { input_current_ = input_current; }
+  void setIdCurrent(float id_current) { id_current_ = id_current; }
+  void setIqCurrent(float iq_current) { iq_current_ = iq_current; }
+  void setThrottleValue(float throttle_value) { throttle_value_ = throttle_value; }
+  void setMotorSpeed(float motor_speed) { motor_speed_ = motor_speed; }
+  void setInputVoltage(float input_voltage) { input_voltage_ = input_voltage; }
+  void setMotorOuterLoopPosition(float motor_outer_loop_position) {
+    motor_outer_loop_position_ = motor_outer_loop_position;
+  }
+  void setMotorId(int motor_id) { motor_id_ = motor_id; }
+  void setVdVoltage(float vd_voltage) { vd_voltage_ = vd_voltage; }
+  void setVqVoltage(float vq_voltage) { vq_voltage_ = vq_voltage; }
+
 private:
   float mos_temperature_;
   float motor_temperature_;
