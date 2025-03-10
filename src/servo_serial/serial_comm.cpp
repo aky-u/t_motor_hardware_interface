@@ -22,4 +22,21 @@
 
 #include "t_motor_hardware_interface/servo_serial/serial_comm.hpp"
 
-namespace t_motor_hardware_interface {} // namespace t_motor_hardware_interface
+namespace t_motor_hardware_interface {
+
+SerialComm::SerialComm(const std::string &port, unsigned int baudrate)
+    : serial_port_(io_service_, port) {
+  try {
+    serial_port_.set_option(boost::asio::serial_port_base::baud_rate(baudrate));
+    serial_port_.set_option(boost::asio::serial_port_base::character_size(8));
+    serial_port_.set_option(
+        boost::asio::serial_port_base::stop_bits(boost::asio::serial_port_base::stop_bits::one));
+    serial_port_.set_option(
+        boost::asio::serial_port_base::parity(boost::asio::serial_port_base::parity::none));
+    serial_port_.set_option(boost::asio::serial_port_base::flow_control(
+        boost::asio::serial_port_base::flow_control::none));
+  } catch (const boost::system::system_error &e) {
+    throw std::runtime_error(e.what());
+  }
+}
+} // namespace t_motor_hardware_interface

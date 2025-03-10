@@ -31,8 +31,12 @@
 #include <iostream>
 #include <unistd.h>
 
+#include "t_motor_hardware_interface/servo_serial/serial_comm.hpp"
 #include "t_motor_hardware_interface/t_motor_hardware_interface.hpp"
 
 using namespace t_motor_hardware_interface;
 
-int main() { std::cout << "Testing motor hardware interface..." << std::endl; }
+int main() {
+  std::cout << "Testing motor hardware interface..." << std::endl;
+  SerialComm serial_comm("/dev/ttyUSB0", 115200);
+}
