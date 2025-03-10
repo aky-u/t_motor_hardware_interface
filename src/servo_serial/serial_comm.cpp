@@ -39,4 +39,6 @@ SerialComm::SerialComm(const std::string &port, unsigned int baudrate)
     throw std::runtime_error(e.what());
   }
 }
+
+void SerialComm::writeData(const std::vector<uint8_t> &data) const {}
 } // namespace t_motor_hardware_interface

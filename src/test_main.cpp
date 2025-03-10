@@ -39,4 +39,7 @@ using namespace t_motor_hardware_interface;
 int main() {
   std::cout << "Testing motor hardware interface..." << std::endl;
   SerialComm serial_comm("/dev/ttyUSB0", 115200);
+
+  const uint8_t readparam[6] = {0x02, 0x01 0x04, 0x40, 0x84, 0x03};
+  serial_comm.writeData(readparam);
 }
