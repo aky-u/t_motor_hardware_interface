@@ -28,6 +28,7 @@
 #ifndef T_MOTOR_HARDWARE_INTERFACE__T_MOTOR_DRIVER__COM__SERIAL_COMM_HPP_
 #define T_MOTOR_HARDWARE_INTERFACE__T_MOTOR_DRIVER__COM__SERIAL_COMM_HPP_
 
+#include <boost/asio.hpp>
 #include <cstdint>
 #include <string>
 
@@ -40,14 +41,19 @@ public:
   SerialComm(const std::string &port_name);
   ~SerialComm() override;
 
+  /**
+   * @brief Initialize the serial communication. Open the serial port.
+   */
   bool initialize() override;
   bool sendMessage(const uint32_t motor_id, const uint8_t *data, const uint8_t len) const override;
   bool readState(TMotorState &state) const override;
 
 private:
-  bool readMessage(uint8_t *data, uint8_t &len) const override;
-  int fd_;
   std::string port_name_;
+  boost::asio::io_service io_service_;
+  boost::asio::serial_port serial_port_;
+
+  bool readMessage(uint8_t *data, uint8_t &len) const override;
 }; // class SerialComm
 
 } // namespace t_motor_hardware_interface

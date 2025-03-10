@@ -33,7 +33,12 @@
 namespace t_motor_hardware_interface {
 
 TMotorBase::TMotorBase(uint32_t motor_id, const std::string &interface) : motor_id_(motor_id) {
-  //   motor_comm_ = std::make_unique<SerialComm>(interface);
+  motor_comm_ = std::make_unique<SerialComm>(interface);
+
+  // Initialize the motor communication
+  if (!motor_comm_->initialize()) {
+    std::cerr << "Error initializing motor communication!" << std::endl;
+  }
 }
 
 bool TMotorBase::setZeroPosition() const {}

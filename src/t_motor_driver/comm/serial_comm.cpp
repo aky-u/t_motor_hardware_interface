@@ -25,16 +25,40 @@
 
 // https://www.cubemars.com/images/file/20240611/1718085712815162.pdf
 
+#include <fcntl.h>
+#include <unistd.h>
+
 #include "t_motor_hardware_interface/t_motor_driver/comm/serial_comm.hpp"
+#include "t_motor_hardware_interface/t_motor_driver/protocol/serial_protocol.hpp"
 
 namespace t_motor_hardware_interface {
 
-SerialComm::SerialComm(const std::string &port_name)
-    : IMotorComm(), fd_(-1), port_name_(port_name) {}
+SerialComm::SerialComm(const std::string &port_name) : IMotorComm(), port_name_(port_name) {}
 
-SerialComm::~SerialComm() {}
+SerialComm::~SerialComm() {
+  if (serial_port_.is_open()) {
+    serial_port_.close();
+  }
+}
 
-bool SerialComm::initialize() {}
+bool SerialComm::initialize() {
+  try {
+    serial_port_.open(port_name_);
+    serial_port_.set_option(boost::asio::serial_port_base::baud_rate(kSerialBaudRate));
+    serial_port_.set_option(boost::asio::serial_port_base::character_size(8));
+    serial_port_.set_option(
+        boost::asio::serial_port_base::stop_bits(boost::asio::serial_port_base::stop_bits::one));
+    serial_port_.set_option(
+        boost::asio::serial_port_base::parity(boost::asio::serial_port_base::parity::none));
+    serial_port_.set_option(boost::asio::serial_port_base::flow_control(
+        boost::asio::serial_port_base::flow_control::none));
+  } catch (const boost::system::system_error &e) {
+    std::cerr << "Error opening serial port: " << e.what() << std::endl;
+    return false;
+  }
+
+  return true;
+}
 
 bool SerialComm::sendMessage(const uint32_t motor_id, const uint8_t *data,
                              const uint8_t len) const {}
