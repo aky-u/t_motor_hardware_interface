@@ -25,42 +25,35 @@
 
 // https://www.cubemars.com/images/file/20240611/1718085712815162.pdf
 
-#ifndef T_MOTOR_HARDWARE_INTERFACE__T_MOTOR_DRIVER__CONFIG_HPP_
-#define T_MOTOR_HARDWARE_INTERFACE__T_MOTOR_DRIVER__CONFIG_HPP_
+#ifndef T_MOTOR_HARDWARE_INTERFACE__T_MOTOR_DRIVER__COM__CAN_COMM_HPP_
+#define T_MOTOR_HARDWARE_INTERFACE__T_MOTOR_DRIVER__COM__CAN_COMM_HPP_
+
+#include <cstdint>
+#include <linux/can.h>
+#include <linux/can/raw.h>
+#include <net/if.h>
+#include <string>
+#include <sys/ioctl.h>
+#include <sys/socket.h>
 
 namespace t_motor_hardware_interface {
 
-/**
- * @struct TMotorConfig
- * @brief Configuration parameters for the motor
- */
-struct TMotorConfig {
-  int min_position;  // Minimum position limit
-  int max_position;  // Maximum position limit
-  int min_velocity;  // Minimum velocity limit
-  int max_velocity;  // Maximum velocity limit
-  int min_current;   // Minimum current limit
-  int max_current;   // Maximum current limit
-  int min_torque;    // Minimum torque limit
-  int max_torque;    // Maximum torque limit
-  double kt;         //
-  double gear_ratio; // Gear ratio
-};
+class CANComm {
+private:
+  int socket_fd_;
+  struct sockaddr_can addr_;
+  struct ifreq ifr_;
+  std::string can_interface_name_;
 
-// Default configuration parameters
-// TODO: Set randomly for now
-const TMotorConfig AK_80_8 = {
-    .min_position = -32000,
-    .max_position = 32000,
-    .min_velocity = -32000,
-    .max_velocity = 32000,
-    .min_current = -32000,
-    .max_current = 32000,
-    .min_torque = -32000,
-    .max_torque = 32000,
-    .kt = 0.0,
-    .gear_ratio = 0.0,
-};
+public:
+  explicit CANComm(const std::string &interface = "can0");
+  ~CANComm();
+
+  bool initialize();
+  bool sendCANMessage(uint32_t can_id, const uint8_t *data, uint8_t len) const;
+  bool readCANMessage(struct can_frame &frame) const;
+}; // class CANComm
 
 } // namespace t_motor_hardware_interface
-#endif // T_MOTOR_HARDWARE_INTERFACE__T_MOTOR_DRIVER__CONFIG_HPP_
+
+#endif // T_MOTOR_HARDWARE_INTERFACE__T_MOTOR_DRIVER__COM__CAN_COMM_HPP_

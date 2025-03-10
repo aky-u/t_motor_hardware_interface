@@ -25,42 +25,26 @@
 
 // https://www.cubemars.com/images/file/20240611/1718085712815162.pdf
 
-#ifndef T_MOTOR_HARDWARE_INTERFACE__T_MOTOR_DRIVER__CONFIG_HPP_
-#define T_MOTOR_HARDWARE_INTERFACE__T_MOTOR_DRIVER__CONFIG_HPP_
+#ifndef T_MOTOR_HARDWARE_INTERFACE__T_MOTOR_DRIVER__T_MOTOR_STATE_HPP_
+#define T_MOTOR_HARDWARE_INTERFACE__T_MOTOR_DRIVER__T_MOTOR_STATE_HPP_
+
+#include <iostream>
 
 namespace t_motor_hardware_interface {
 
-/**
- * @struct TMotorConfig
- * @brief Configuration parameters for the motor
- */
-struct TMotorConfig {
-  int min_position;  // Minimum position limit
-  int max_position;  // Maximum position limit
-  int min_velocity;  // Minimum velocity limit
-  int max_velocity;  // Maximum velocity limit
-  int min_current;   // Minimum current limit
-  int max_current;   // Maximum current limit
-  int min_torque;    // Minimum torque limit
-  int max_torque;    // Maximum torque limit
-  double kt;         //
-  double gear_ratio; // Gear ratio
-};
+class TMotorState {
+public:
+  TMotorState();
+  ~TMotorState() = default;
 
-// Default configuration parameters
-// TODO: Set randomly for now
-const TMotorConfig AK_80_8 = {
-    .min_position = -32000,
-    .max_position = 32000,
-    .min_velocity = -32000,
-    .max_velocity = 32000,
-    .min_current = -32000,
-    .max_current = 32000,
-    .min_torque = -32000,
-    .max_torque = 32000,
-    .kt = 0.0,
-    .gear_ratio = 0.0,
-};
-
+private:
+  float position_;
+  float velocity_;
+  float acceleration_;
+  float current_;
+  float temperature_;
+  std::string error_string_;
+}; // class TMotorState
 } // namespace t_motor_hardware_interface
-#endif // T_MOTOR_HARDWARE_INTERFACE__T_MOTOR_DRIVER__CONFIG_HPP_
+
+#endif // T_MOTOR_HARDWARE_INTERFACE__T_MOTOR_DRIVER__T_MOTOR_STATE_HPP_

@@ -25,12 +25,12 @@
 
 // https://www.cubemars.com/images/file/20240611/1718085712815162.pdf
 
-#ifndef T_MOTOR_HARDWARE_INTERFACE__T_MOTOR__T_MOTOR_SERVO_HPP_
-#define T_MOTOR_HARDWARE_INTERFACE__T_MOTOR__T_MOTOR_SERVO_HPP_
+#ifndef T_MOTOR_HARDWARE_INTERFACE__T_MOTOR_DRIVER__T_MOTOR_SERVO_HPP_
+#define T_MOTOR_HARDWARE_INTERFACE__T_MOTOR_DRIVER__T_MOTOR_SERVO_HPP_
 
 #include <cstdint>
 
-#include "t_motor_hardware_interface/t_motor/t_motor_base.hpp"
+#include "t_motor_hardware_interface/t_motor_driver/t_motor_base.hpp"
 
 namespace t_motor_hardware_interface {
 
@@ -82,4 +82,4 @@ public:
 
 } // namespace t_motor_hardware_interface
 
-#endif // T_MOTOR_HARDWARE_INTERFACE__T_MOTOR__T_MOTOR_SERVO_HPP_
+#endif // T_MOTOR_HARDWARE_INTERFACE__T_MOTOR_DRIVER__T_MOTOR_SERVO_HPP_

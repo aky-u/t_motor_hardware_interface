@@ -27,34 +27,14 @@
 
 #include <cstring>
 
-#include "t_motor_hardware_interface/t_motor/can_interface.hpp"
-#include "t_motor_hardware_interface/t_motor/can_packet.hpp"
-#include "t_motor_hardware_interface/t_motor/t_motor_servo.hpp"
+#include "t_motor_hardware_interface/t_motor_driver/t_motor_servo.hpp"
 
 namespace t_motor_hardware_interface {
 
 TMotorServo::TMotorServo(uint32_t motor_id, const std::string &interface)
     : TMotorBase(motor_id, interface) {};
 
-bool TMotorServo::setDuty(float duty) const {
-  if (duty > 1.0f)
-    duty = 1.0f;
-  if (duty < -1.0f)
-    duty = -1.0f;
-
-  int32_t duty_scaled = static_cast<int32_t>(duty * 100000.0f);
-  uint8_t data[4];
-  data[0] = (duty_scaled >> 24) & 0xFF;
-  data[1] = (duty_scaled >> 16) & 0xFF;
-  data[2] = (duty_scaled >> 8) & 0xFF;
-  data[3] = duty_scaled & 0xFF;
-
-  uint32_t can_id = id_ | (static_cast<uint32_t>(CAN_PACKET_ID::SET_DUTY) << 8);
-
-  can_interface_.sendCANMessage(can_id, data, sizeof(data));
-
-  return true;
-}
+bool TMotorServo::setDuty(float duty) const {}
 
 void TMotorServo::setCurrent(float current) const {}
 
@@ -62,18 +42,7 @@ void TMotorServo::setCurrentBrake(float current, float brake) const {}
 
 void TMotorServo::setRPM(float rpm) const {}
 
-void TMotorServo::setPosition(float pos) const {
-  // scaling
-  int32_t pos_scaled = static_cast<int32_t>(pos * 100000.0f);
-
-  // Create CAN packet
-  uint8_t data[4];
-  std::memcpy(data, &pos_scaled, sizeof(pos_scaled));
-
-  uint32_t can_id = id_ | (static_cast<uint32_t>(CAN_PACKET_ID::SET_POS) << 8);
-
-  can_interface_.sendCANMessage(can_id, data, sizeof(data));
-}
+void TMotorServo::setPosition(float pos) const {}
 
 void TMotorServo::setOriginHere() const {}
 

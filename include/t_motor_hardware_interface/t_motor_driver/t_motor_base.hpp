@@ -25,14 +25,13 @@
 
 // https://www.cubemars.com/images/file/20240611/1718085712815162.pdf
 
-#ifndef T_MOTOR_HARDWARE_INTERFACE__T_MOTOR__T_MOTOR_BASE_HPP_
-#define T_MOTOR_HARDWARE_INTERFACE__T_MOTOR__T_MOTOR_BASE_HPP_
+#ifndef T_MOTOR_HARDWARE_INTERFACE__T_MOTOR_DRIVER__T_MOTOR_BASE_HPP_
+#define T_MOTOR_HARDWARE_INTERFACE__T_MOTOR_DRIVER__T_MOTOR_BASE_HPP_
 
 #include <cstdint>
+#include <memory>
 
-#include "t_motor_hardware_interface/t_motor/can_interface.hpp"
-#include "t_motor_hardware_interface/t_motor/can_packet.hpp"
-#include "t_motor_hardware_interface/t_motor/t_motor_config.hpp"
+#include "t_motor_hardware_interface/t_motor_driver/comm/i_motor_comm.hpp"
 
 namespace t_motor_hardware_interface {
 
@@ -45,30 +44,16 @@ public:
 
   bool powerOn() const;
 
-  void readState();
+  void readState() const;
 
   void updateState();
 
-  std::string getErrorString() const;
-
 protected:
-  // CAN communication
-  uint32_t id_;
-  CANInterface can_interface_;
+  uint32_t motor_id_;
+  std::unique_ptr<IMotorComm> motor_comm_;
+  TMotorState motor_state_;
 
-  // wait message timeout
-
-  // Motor configuration
-  TMotorConfig config_;
-
-  // Motor state
-  float position_;
-  float velocity_;
-  float acceleration_;
-  float current_;
-  float temperature_;
-  ERROR_CODE error_;
 }; // class TMotorBase
 } // namespace t_motor_hardware_interface
 
-#endif // T_MOTOR_HARDWARE_INTERFACE__T_MOTOR__T_MOTOR_BASE_HPP_
+#endif // T_MOTOR_HARDWARE_INTERFACE__T_MOTOR_DRIVER__T_MOTOR_BASE_HPP_

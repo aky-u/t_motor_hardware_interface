@@ -25,42 +25,33 @@
 
 // https://www.cubemars.com/images/file/20240611/1718085712815162.pdf
 
-#ifndef T_MOTOR_HARDWARE_INTERFACE__T_MOTOR_DRIVER__CONFIG_HPP_
-#define T_MOTOR_HARDWARE_INTERFACE__T_MOTOR_DRIVER__CONFIG_HPP_
+#ifndef T_MOTOR_HARDWARE_INTERFACE__T_MOTOR_DRIVER__COM__I_MOTOR_COMM_HPP_
+#define T_MOTOR_HARDWARE_INTERFACE__T_MOTOR_DRIVER__COM__I_MOTOR_COMM_HPP_
+
+#include <cstdint>
+#include <linux/can.h>
+#include <linux/can/raw.h>
+#include <net/if.h>
+#include <string>
+#include <sys/ioctl.h>
+#include <sys/socket.h>
+
+#include "t_motor_hardware_interface/t_motor_driver/t_motor_state.hpp"
 
 namespace t_motor_hardware_interface {
+class IMotorComm {
+public:
+  virtual ~IMotorComm() = default;
 
-/**
- * @struct TMotorConfig
- * @brief Configuration parameters for the motor
- */
-struct TMotorConfig {
-  int min_position;  // Minimum position limit
-  int max_position;  // Maximum position limit
-  int min_velocity;  // Minimum velocity limit
-  int max_velocity;  // Maximum velocity limit
-  int min_current;   // Minimum current limit
-  int max_current;   // Maximum current limit
-  int min_torque;    // Minimum torque limit
-  int max_torque;    // Maximum torque limit
-  double kt;         //
-  double gear_ratio; // Gear ratio
-};
+  virtual bool initialize() = 0;
+  virtual bool sendMessage(const uint32_t motor_id, const uint8_t *data,
+                           const uint8_t len) const = 0;
 
-// Default configuration parameters
-// TODO: Set randomly for now
-const TMotorConfig AK_80_8 = {
-    .min_position = -32000,
-    .max_position = 32000,
-    .min_velocity = -32000,
-    .max_velocity = 32000,
-    .min_current = -32000,
-    .max_current = 32000,
-    .min_torque = -32000,
-    .max_torque = 32000,
-    .kt = 0.0,
-    .gear_ratio = 0.0,
-};
+  virtual bool readState(TMotorState &state) const = 0;
 
+protected:
+  virtual bool readMessage(uint8_t *data, uint8_t &len) const = 0;
+}; // class IMotorComm
 } // namespace t_motor_hardware_interface
-#endif // T_MOTOR_HARDWARE_INTERFACE__T_MOTOR_DRIVER__CONFIG_HPP_
+
+#endif // T_MOTOR_HARDWARE_INTERFACE__T_MOTOR_DRIVER__COM__I_MOTOR_COMM_HPP_

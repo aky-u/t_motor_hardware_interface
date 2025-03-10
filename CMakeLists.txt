@@ -26,9 +26,10 @@ endforeach()
 add_library(${PROJECT_NAME} SHARED
   src/t_motor_hardware_interface.cpp
 
-  src/t_motor/can_interface.cpp
-  src/t_motor/t_motor_base.cpp
-  src/t_motor/t_motor_servo.cpp
+  src/t_motor_driver/comm/can_comm.cpp
+
+  src/t_motor_driver/t_motor_base.cpp
+  src/t_motor_driver/t_motor_servo.cpp
 )
 
 target_include_directories(${PROJECT_NAME} PRIVATE include)

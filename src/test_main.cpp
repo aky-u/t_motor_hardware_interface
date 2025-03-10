@@ -31,29 +31,8 @@
 #include <iostream>
 #include <unistd.h>
 
-#include "t_motor_hardware_interface/t_motor/t_motor_servo.hpp"
+#include "t_motor_hardware_interface/t_motor_driver/t_motor_servo.hpp"
 
 using namespace t_motor_hardware_interface;
 
-int main() {
-  CANInterface can("can0");
-  if (!can.initialize()) {
-    std::cerr << "Failed to initialize CAN interface!" << std::endl;
-    return 0;
-  }
-
-  std::cout << "Scanning for active CAN IDs..." << std::endl;
-
-  for (uint32_t id = 0x01; id <= 0x1FF; id++) {
-    TMotorServo motor(id, "can0");
-    if (!motor.setDuty(0.5)) {
-      continue;
-    }
-
-    usleep(50000); // 50ms 待つ
-  }
-
-  std::cout << "No motor found on CAN bus!" << std::endl;
-
-  return 0;
-}
+int main() { std::cout << "Testing motor hardware interface..." << std::endl; }

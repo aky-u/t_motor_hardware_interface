@@ -29,20 +29,19 @@
 #include <iostream>
 #include <unistd.h>
 
-#include "t_motor_hardware_interface/t_motor/can_interface.hpp"
+#include "t_motor_hardware_interface/t_motor_driver/comm/can_comm.hpp"
 
 namespace t_motor_hardware_interface {
 
-CANInterface::CANInterface(const std::string &interface)
-    : can_interface_name_(interface), socket_fd_(-1) {}
+CANComm::CANComm(const std::string &interface) : can_interface_name_(interface), socket_fd_(-1) {}
 
-CANInterface::~CANInterface() {
+CANComm::~CANComm() {
   if (socket_fd_ >= 0) {
     close(socket_fd_);
   }
 }
 
-bool CANInterface::initialize() {
+bool CANComm::initialize() {
   // Open a socket for the CAN interface
   socket_fd_ = socket(PF_CAN, SOCK_RAW, CAN_RAW);
   if (socket_fd_ < 0) {
@@ -70,7 +69,7 @@ bool CANInterface::initialize() {
   return true;
 }
 
-bool CANInterface::sendCANMessage(uint32_t can_id, const uint8_t *data, uint8_t len) const {
+bool CANComm::sendCANMessage(uint32_t can_id, const uint8_t *data, uint8_t len) const {
   struct can_frame frame;
   std::memset(&frame, 0, sizeof(frame));
   frame.can_id = can_id;
@@ -87,7 +86,7 @@ bool CANInterface::sendCANMessage(uint32_t can_id, const uint8_t *data, uint8_t 
   return true;
 }
 
-bool CANInterface::readCANMessage(struct can_frame &frame) const {
+bool CANComm::readCANMessage(struct can_frame &frame) const {
   if (read(socket_fd_, &frame, sizeof(frame)) < 0) {
     std::cerr << "Error reading CAN message!" << std::endl;
     return false;

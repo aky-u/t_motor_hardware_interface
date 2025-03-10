@@ -25,35 +25,32 @@
 
 // https://www.cubemars.com/images/file/20240611/1718085712815162.pdf
 
-#ifndef T_MOTOR_HARDWARE_INTERFACE__T_MOTOR_DRIVER__COM__CAN_COMM_HPP_
-#define T_MOTOR_HARDWARE_INTERFACE__T_MOTOR_DRIVER__COM__CAN_COMM_HPP_
+#ifndef T_MOTOR_HARDWARE_INTERFACE__T_MOTOR_DRIVER__COM__SERIAL_COMM_HPP_
+#define T_MOTOR_HARDWARE_INTERFACE__T_MOTOR_DRIVER__COM__SERIAL_COMM_HPP_
 
 #include <cstdint>
-#include <linux/can.h>
-#include <linux/can/raw.h>
-#include <net/if.h>
 #include <string>
-#include <sys/ioctl.h>
-#include <sys/socket.h>
+
+#include "t_motor_hardware_interface/t_motor_driver/comm/i_motor_comm.hpp"
 
 namespace t_motor_hardware_interface {
 
-class CANInterface {
-private:
-  int socket_fd_;
-  struct sockaddr_can addr_;
-  struct ifreq ifr_;
-  std::string can_interface_name_;
-
+class SerialComm : public IMotorComm {
 public:
-  explicit CANInterface(const std::string &interface = "can0");
-  ~CANInterface();
+  SerialComm(const std::string &port_name);
+  ~SerialComm() override;
 
-  bool initialize();
-  bool sendCANMessage(uint32_t can_id, const uint8_t *data, uint8_t len) const;
-  bool readCANMessage(struct can_frame &frame) const;
-}; // class CANInterface
+  bool initialize() override;
+  bool sendMessage(const uint32_t motor_id, const uint8_t *data, const uint8_t len) const override;
+  bool readState(TMotorState &state) const override;
+
+private:
+  bool readMessage(uint8_t *data, uint8_t &len) const override;
+  int fd_;
+  std::string port_name_;
+  uint32_t baud_rate_;
+}; // class SerialComm
 
 } // namespace t_motor_hardware_interface
 
-#endif // T_MOTOR_HARDWARE_INTERFACE__T_MOTOR_DRIVER__COM__CAN_COMM_HPP_
+#endif // T_MOTOR_HARDWARE_INTERFACE__T_MOTOR_DRIVER__COM__SERIAL_COMM_HPP_
