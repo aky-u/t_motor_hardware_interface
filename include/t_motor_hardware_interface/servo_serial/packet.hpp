@@ -52,6 +52,28 @@ enum class COMM_PACKET_ID {
   COMM_SET_POS_ORIGIN = 95,    // Set motor motion to origin
 };
 
+enum class FAULT_CODE {
+  FAULT_CODE_NONE = 0,
+  FAULT_CODE_OVER_VOLTAGE,                       // Overvoltage
+  FAULT_CODE_UNDER_VOLTAGE,                      // Undervoltage
+  FAULT_CODE_DRV,                                // Driver fault
+  FAULT_CODE_ABS_OVER_CURRENT,                   // Motor overcurrent
+  FAULT_CODE_OVER_TEMP_FET,                      // MOS overtemperature
+  FAULT_CODE_OVER_TEMP_MOTOR,                    // Motor overtemperature
+  FAULT_CODE_GATE_DRIVER_OVER_VOLTAGE,           // Driver overvoltage
+  FAULT_CODE_GATE_DRIVER_UNDER_VOLTAGE,          // Driver undervoltage
+  FAULT_CODE_MCU_UNDER_VOLTAGE,                  // MCU undervoltage
+  FAULT_CODE_BOOTING_FROM_WATCHDOG_RESET,        // Undervoltage
+  FAULT_CODE_ENCODER_SPI,                        // SPI encoder fault
+  FAULT_CODE_ENCODER_SINCOS_BELOW_MIN_AMPLITUDE, // Encoder below minimumamplitude
+  FAULT_CODE_ENCODER_SINCOS_ABOVE_MAX_AMPLITUDE, // Encoder above maximumamplitude
+  FAULT_CODE_FLASH_CORRUPTION,                   // Flash fault
+  FAULT_CODE_HIGH_OFFSET_CURRENT_SENSOR_1,       // Current sampling channel 1 fault
+  FAULT_CODE_HIGH_OFFSET_CURRENT_SENSOR_2,       // Current sampling channel 2 fault
+  FAULT_CODE_HIGH_OFFSET_CURRENT_SENSOR_3,       // Current sampling channel 3 fault
+  FAULT_CODE_UNBALANCED_CURRENTS,                // Unbalanced currents
+};
+
 } // namespace t_motor_hardware_interface
 
 #endif // T_MOTOR_HARDWARE_INTERFACE__SERVO_SERIAL__PACKET_HPP_
