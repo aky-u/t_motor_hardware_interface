@@ -107,12 +107,26 @@ bool SerialComm::sendMessage(const uint32_t motor_id, const uint8_t *data,
 bool SerialComm::readState(TMotorState &state) const {
   uint8_t data[8];
   uint8_t len = 0;
-  if (!readMessage(data, len)) {
-    return false;
-  }
-  return true;
+
+  return readMessage(data, len);
 }
 
-bool SerialComm::readMessage(uint8_t *data, uint8_t &len) const {}
+bool SerialComm::readMessage(uint8_t *data, uint8_t &len) const {
+  // Read the message
+  len = read(fd_, data, 8);
+  if (len < 0) {
+    std::cerr << "Error: Could not read from serial port!" << std::endl;
+    return false;
+  }
+
+  // print the message
+  std::cout << "Received message: ";
+  for (int i = 0; i < len; i++) {
+    std::cout << std::hex << (int)data[i] << " ";
+  }
+  std::cout << std::endl;
+
+  return true;
+}
 
 } // namespace t_motor_hardware_interface
