@@ -23,6 +23,8 @@
 #ifndef T_MOTOR_HARDWARE_INTERFACE__SERVO_SERIAL__MOTOR_STATE_HPP_
 #define T_MOTOR_HARDWARE_INTERFACE__SERVO_SERIAL__MOTOR_STATE_HPP_
 
+#include "t_motor_hardware_interface/servo_serial/packet.hpp"
+
 namespace t_motor_hardware_interface {
 
 class MotorState {
@@ -57,6 +59,7 @@ public:
   void setThrottleValue(float throttle_value) { throttle_value_ = throttle_value; }
   void setMotorSpeed(float motor_speed) { motor_speed_ = motor_speed; }
   void setInputVoltage(float input_voltage) { input_voltage_ = input_voltage; }
+  void setFaultCode(int fault_code) { fault_code_ = static_cast<FAULT_CODE>(fault_code); }
   void setMotorOuterLoopPosition(float motor_outer_loop_position) {
     motor_outer_loop_position_ = motor_outer_loop_position;
   }
@@ -74,6 +77,7 @@ private:
   float throttle_value_;
   float motor_speed_;
   float input_voltage_;
+  FAULT_CODE fault_code_;
   float motor_outer_loop_position_;
   int motor_id_;
   float vd_voltage_;

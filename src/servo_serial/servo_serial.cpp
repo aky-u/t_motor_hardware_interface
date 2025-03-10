@@ -48,7 +48,41 @@ bool ServoSerial::readMotorParameters() {
 
 MotorState ServoSerial::parseMotorParameters(const std::vector<uint8_t> &data) const {
   MotorState motor_state;
-  // Parse the data and fill in the motor state object
+  // if (data.at(0) != COMM_PACKET_ID::COMM_GET_VALUES) {
+  //   std::cerr << "Error: Invalid packet ID" << std::endl;
+  //   return motor_state;
+  // }
+
+  // Parse the motor parameters
+  int index = 1;
+  motor_state.setMosTemperature(serial_comm_.bufferGetInt16(data, index) / 10.0);
+  index += 2;
+  motor_state.setMotorTemperature(serial_comm_.bufferGetInt16(data, index) / 10.0);
+  index += 2;
+  motor_state.setOutputCurrent(serial_comm_.bufferGetInt32(data, index) / 100.0);
+  index += 4;
+  motor_state.setInputCurrent(serial_comm_.bufferGetInt32(data, index) / 100.0);
+  index += 4;
+  motor_state.setIdCurrent(serial_comm_.bufferGetInt32(data, index) / 100.0);
+  index += 4;
+  motor_state.setIqCurrent(serial_comm_.bufferGetInt32(data, index) / 100.0);
+  index += 4;
+  motor_state.setThrottleValue(serial_comm_.bufferGetInt16(data, index) / 1000.0);
+  index += 2;
+  motor_state.setMotorSpeed(serial_comm_.bufferGetInt32(data, index));
+  index += 4;
+  motor_state.setInputVoltage(serial_comm_.bufferGetInt16(data, index) / 10.0);
+  index += 2 + 24; // Skip 24 reserved bytes
+  motor_state.setFaultCode(data.at(index));
+  index += 1;
+  motor_state.setMotorOuterLoopPosition(serial_comm_.bufferGetInt32(data, index) / 1000000.0);
+  index += 4;
+  motor_state.setMotorId(data.at(index));
+  index += 1 + 6; // Skip 6 reserved bytes for temperature
+  motor_state.setVdVoltage(serial_comm_.bufferGetInt32(data, index) / 1000.0);
+  index += 4;
+  motor_state.setVqVoltage(serial_comm_.bufferGetInt32(data, index) / 1000.0);
+  index += 4;
 
   return motor_state;
 }

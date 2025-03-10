@@ -104,14 +104,13 @@ std::vector<uint8_t> SerialComm::readData() const {
     return data;
   }
 
+  // Read the header byte
+  auto header = read(fd_, &byte, 1); // 0x02
+
   // Read until we have at least one byte
   ssize_t bytes_read = 0;
   int count = 0;
   while ((bytes_read = read(fd_, &byte, 1)) > 0) {
-    // if (count == 0 && byte != 0x02) {
-    //   // If the first byte is not the start byte, skip it
-    //   continue;
-    // }
     data.push_back(byte); // Add the byte to the data vector
 
     if (byte == 0x03) {
