@@ -67,7 +67,14 @@ bool SerialComm::initialize() {
 bool SerialComm::sendMessage(const uint32_t motor_id, const uint8_t *data,
                              const uint8_t len) const {}
 
-bool SerialComm::readState(TMotorState &state) const { return true; }
+bool SerialComm::readState(TMotorState &state) const {
+  uint8_t data[8];
+  uint8_t len = 0;
+  if (!readMessage(data, len)) {
+    return false;
+  }
+  return true;
+}
 
 bool SerialComm::readMessage(uint8_t *data, uint8_t &len) const { return true; }
 
