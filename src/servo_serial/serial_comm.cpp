@@ -126,4 +126,32 @@ std::vector<uint8_t> SerialComm::readData() const {
 
   return data;
 }
+
+void SerialComm::bufferAppendInt16(std::vector<uint8_t> &data, int16_t value, int index) const {
+  // Append a 16-bit integer to the data buffer
+  data[index] = (value >> 8) & 0xFF;
+  data[index + 1] = value & 0xFF;
+}
+
+void SerialComm::bufferAppendInt32(std::vector<uint8_t> &data, int32_t value, int index) const {
+  // Append a 32-bit integer to the data buffer
+  data[index] = (value >> 24) & 0xFF;
+  data[index + 1] = (value >> 16) & 0xFF;
+  data[index + 2] = (value >> 8) & 0xFF;
+  data[index + 3] = value & 0xFF;
+}
+
+int SerialComm::bufferGetInt16(const std::vector<uint8_t> &buffer, int index) const {
+  // Convert two bytes to a 16-bit integer
+  int16_t value = (buffer[index] << 8) | buffer[index + 1];
+  return value;
+}
+
+int SerialComm::bufferGetInt32(const std::vector<uint8_t> &buffer, int index) const {
+  // Convert four bytes to a 32-bit integer
+  int32_t value = (buffer[index] << 24) | (buffer[index + 1] << 16) | (buffer[index + 2] << 8) |
+                  buffer[index + 3];
+  return value;
+}
+
 } // namespace t_motor_hardware_interface

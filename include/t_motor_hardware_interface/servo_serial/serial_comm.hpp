@@ -36,6 +36,13 @@ public:
   bool writeData(const std::vector<uint8_t> &data) const;
   std::vector<uint8_t> readData() const;
 
+  // Helper functions
+  void bufferAppendInt16(std::vector<uint8_t> &data, int16_t value, int index) const;
+  void bufferAppendInt32(std::vector<uint8_t> &data, int32_t value, int index) const;
+
+  int bufferGetInt16(const std::vector<uint8_t> &buffer, int index) const;
+  int bufferGetInt32(const std::vector<uint8_t> &buffer, int index) const;
+
 private:
   int fd_;
 }; // class SerialComm
