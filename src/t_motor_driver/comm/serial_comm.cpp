@@ -26,7 +26,9 @@
 // https://www.cubemars.com/images/file/20240611/1718085712815162.pdf
 
 #include <boost/asio.hpp>
+#include <cstring>
 #include <fcntl.h>
+#include <iostream>
 #include <unistd.h>
 
 #include "t_motor_hardware_interface/t_motor_driver/comm/serial_comm.hpp"
@@ -66,23 +68,14 @@ bool SerialComm::sendMessage(const uint32_t motor_id, const uint8_t *data,
                              const uint8_t len) const {}
 
 bool SerialComm::readState(TMotorState &state) const {
-  uint8_t data[256];
-  uint8_t len = 0;
-  bool rm = readMessage(data, len);
+  uint8_t data[8];
+  uint8_t len;
+  if (!readMessage(data, len)) {
+    return false;
+  }
   return true;
 }
 
-bool SerialComm::readMessage(uint8_t *data, uint8_t &len) const {
-  // boost::asio::streambuf response;
-  // boost::asio::read_until(serial_port_, response, '\n');
+bool SerialComm::readMessage(uint8_t *data, uint8_t &len) { return true; }
 
-  // std::istream response_stream(&response);
-  // std::string response_str;
-  // std::getline(response_stream, response_str);
-
-  // len = response_str.length();
-  // std::memcpy(data, response_str.c_str(), len);
-
-  return true;
-}
 } // namespace t_motor_hardware_interface
