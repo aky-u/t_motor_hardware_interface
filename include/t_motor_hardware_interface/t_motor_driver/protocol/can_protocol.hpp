@@ -25,8 +25,10 @@
 
 // https://www.cubemars.com/images/file/20240611/1718085712815162.pdf
 
-#ifndef T_MOTOR_HARDWARE_INTERFACE__T_MOTOR__CAN_PACKET_HPP_
-#define T_MOTOR_HARDWARE_INTERFACE__T_MOTOR__CAN_PACKET_HPP_
+#ifndef T_MOTOR_HARDWARE_INTERFACE__T_MOTOR_DRIVER__PROTOCOL__CAN_PROTOCOL_HPP_
+#define T_MOTOR_HARDWARE_INTERFACE__T_MOTOR_DRIVER__PROTOCOL__CAN_PROTOCOL_HPP_
+
+#include <cstdint>
 
 namespace t_motor_hardware_interface {
 
@@ -76,4 +78,4 @@ enum class ERROR_CODE {
 
 } // namespace t_motor_hardware_interface
 
-#endif // T_MOTOR_HARDWARE_INTERFACE__T_MOTOR__CAN_PACKET_HPP_
+#endif // T_MOTOR_HARDWARE_INTERFACE__T_MOTOR_DRIVER__PROTOCOL__CAN_PROTOCOL_HPP_
