@@ -20,44 +20,64 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+#include <cstring>
 #include <fcntl.h>
 #include <iostream>
+#include <memory>
 #include <stdexcept>
 #include <unistd.h>
+#include <vector>
 
 #include "t_motor_hardware_interface/servo_serial/serial_comm.hpp"
 
 namespace t_motor_hardware_interface {
 
 SerialComm::SerialComm(const std::string &port, unsigned int baudrate) : fd_(-1) {
-  // Open the serial port blocking
   fd_ = open(port.c_str(), O_RDWR | O_NOCTTY | O_SYNC);
-
-  if (fd_ == -1) {
-    throw std::runtime_error("Failed to open serial port");
+  if (fd_ < 0) {
+    std::cerr << "Error: Could not open serial port " << port << std::endl;
   }
 
-  // Set the baudrate
+  // Configure the port settings using termios
   struct termios tty;
+  memset(&tty, 0, sizeof(tty));
+
   if (tcgetattr(fd_, &tty) != 0) {
-    throw std::runtime_error("Failed to get serial port attributes");
+    std::cerr << "Error: Unable to get terminal attributes!" << std::endl;
+    close(fd_);
   }
 
-  cfsetospeed(&tty, baudrate);
-  cfsetispeed(&tty, baudrate);
+  // Set baud rate to 961200 (set with cfsetispeed and cfsetospeed)
+  // Since 961200 isn't in termios constants, we use cfsetspeed directly:
+  int custom_baud_rate = baudrate;
+  cfsetspeed(&tty, custom_baud_rate);
 
+  // Set 8 data bits, no parity, and 1 stop bit
+  tty.c_cflag &= ~PARENB; // No parity
+  tty.c_cflag &= ~CSTOPB; // 1 stop bit
+  tty.c_cflag &= ~CSIZE;  // Clear data size
+  tty.c_cflag |= CS8;     // 8 data bits
+
+  // Set the number of control lines (disable RTS/CTS)
+  tty.c_cflag &= ~CRTSCTS; // Disable hardware flow control
+
+  // Set canonical mode (raw input/output)
+  tty.c_lflag &= ~ICANON; // Non-canonical mode (raw)
+  tty.c_lflag &= ~ECHO;   // Disable echo
+  tty.c_lflag &= ~ECHOE;  // Disable erase
+  tty.c_lflag &= ~ISIG;   // Disable signal generation
+
+  // Disable software flow control
+  tty.c_iflag &= ~(IXON | IXOFF | IXANY);
+
+  // Set minimum number of bytes to read
+  tty.c_cc[VMIN] = 1;
+  tty.c_cc[VTIME] = 0;
+
+  // Apply the settings
   if (tcsetattr(fd_, TCSANOW, &tty) != 0) {
-    throw std::runtime_error("Failed to set serial port attributes");
-  }
-
-  // Set the serial port to 8N1
-  tty.c_cflag &= ~PARENB;
-  tty.c_cflag &= ~CSTOPB;
-  tty.c_cflag &= ~CSIZE;
-  tty.c_cflag |= CS8;
-
-  if (tcsetattr(fd_, TCSANOW, &tty) != 0) {
-    throw std::runtime_error("Failed to set serial port attributes");
+    std::cerr << "Error: Unable to set terminal attributes!" << std::endl;
+    close(fd_);
   }
 }
 
