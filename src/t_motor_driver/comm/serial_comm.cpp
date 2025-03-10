@@ -76,6 +76,16 @@ bool SerialComm::readState(TMotorState &state) const {
   return true;
 }
 
-bool SerialComm::readMessage(uint8_t *data, uint8_t &len) const { return true; }
+bool SerialComm::readMessage(uint8_t *data, uint8_t &len) const {
+  // Read data from serial port
+  // boost::asio::streambuf buf;
+  // boost::asio::read_until(serial_port_, buf, '\n');
+  // std::istream is(&buf);
+  // std::string line;
+  // std::getline(is, line);
+  // std::cout << "Received: " << line << std::endl;
+
+  return true;
+}
 
 } // namespace t_motor_hardware_interface

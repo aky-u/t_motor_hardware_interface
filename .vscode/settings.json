@@ -76,5 +76,6 @@
         "typeinfo": "cpp",
         "variant": "cpp",
         "*.ipp": "cpp"
-    }
+    },
+    "C_Cpp.errorSquiggles": "enabled"
 }
