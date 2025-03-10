@@ -23,6 +23,23 @@
 #ifndef T_MOTOR_HARDWARE_INTERFACE__SERVO_SERIAL__SERIAL_COMM_HPP_
 #define T_MOTOR_HARDWARE_INTERFACE__SERVO_SERIAL__SERIAL_COMM_HPP_
 
-namespace t_motor_hardware_interface {} // namespace t_motor_hardware_interface
+#include <boost/asio.hpp>
+#include <string>
+#include <vector>
+
+namespace t_motor_hardware_interface {
+
+class SerialComm {
+public:
+  SerialComm(const std::string &port, unsigned int baudrate);
+
+  void writeData(const std::vector<uint8_t> &data) const;
+  std::vector<uint8_t> readData(const size_t size) const;
+
+private:
+  boost::asio::io_service io_service_;
+  boost::asio::serial_port serial_port_;
+}; // class SerialComm
+} // namespace t_motor_hardware_interface
 
 #endif // T_MOTOR_HARDWARE_INTERFACE__SERVO_SERIAL__SERIAL_COMM_HPP_

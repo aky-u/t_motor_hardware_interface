@@ -20,4 +20,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+#include "t_motor_hardware_interface/servo_serial/serial_comm.hpp"
+
 namespace t_motor_hardware_interface {} // namespace t_motor_hardware_interface
