@@ -104,22 +104,31 @@ std::vector<uint8_t> SerialComm::readData() const {
     return data;
   }
 
+  // data: [header, data_length, data.., checksum, footer]
+
   // Read the header byte
-  auto header = read(fd_, &byte, 1); // 0x02
+  auto header = read(fd_, &byte, 1);      // 0x02
+  auto data_length = read(fd_, &byte, 1); // 0x49 for motor parameters
+
+  std::cout << "header: " << header << std::endl;
+  std::cout << "data_length: " << data_length << std::endl;
 
   // Read until we have at least one byte
   ssize_t bytes_read = 0;
   int count = 0;
-  while ((bytes_read = read(fd_, &byte, 1)) > 0) {
+  while ((bytes_read = read(fd_, &byte, 1)) > 0 && count < data_length) {
     data.push_back(byte); // Add the byte to the data vector
-
-    if (byte == 0x03) {
-      break; // Stop reading if we reach the end byte
-    }
+    count++;
   }
 
+  // Read the checksum byte
+  auto chs_high = read(fd_, &byte, 1);
+  auto chs_low = read(fd_, &byte, 1);
+
+  auto footer = read(fd_, &byte, 1); // 0x03
+
   // Handle errors or empty read
-  if (bytes_read < 0) {
+  if (bytes_read < 0 || footer != 0x03) {
     std::cerr << "Error: Failed to read data from serial port" << std::endl;
   }
 

@@ -53,6 +53,8 @@ MotorState ServoSerial::parseMotorParameters(const std::vector<uint8_t> &data) c
   //   return motor_state;
   // }
 
+  std::cout << "data_length: " << data.size() << std::endl;
+
   // Parse the motor parameters
   int index = 1;
   motor_state.setMosTemperature(serial_comm_.bufferGetInt16(data, index) / 10.0);
@@ -83,6 +85,8 @@ MotorState ServoSerial::parseMotorParameters(const std::vector<uint8_t> &data) c
   index += 4;
   motor_state.setVqVoltage(serial_comm_.bufferGetInt32(data, index) / 1000.0);
   index += 4;
+
+  std::cout << "index: " << index << std::endl;
 
   return motor_state;
 }

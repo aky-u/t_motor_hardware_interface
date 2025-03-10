@@ -29,6 +29,8 @@
 namespace t_motor_hardware_interface {
 
 const std::vector<uint8_t> kCommandGetMotorParameters = {0x02, 0x01, 0x04, 0x40, 0x84, 0x03};
+constexpr uint8_t kPacketHeader = 0x02;
+constexpr uint8_t kPacketFooter = 0x03;
 
 enum class COMM_PACKET_ID {
   COMM_FW_VERSION = 0,
