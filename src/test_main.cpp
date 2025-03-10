@@ -31,12 +31,8 @@
 #include <iostream>
 #include <unistd.h>
 
-#include "t_motor_hardware_interface/t_motor_driver/t_motor_servo.hpp"
+#include "t_motor_hardware_interface/t_motor_hardware_interface.hpp"
 
 using namespace t_motor_hardware_interface;
 
-int main() {
-  std::cout << "Testing motor hardware interface..." << std::endl;
-
-  TMotorServo motor(1, "/dev/ttyUSB0");
-}
+int main() { std::cout << "Testing motor hardware interface..." << std::endl; }
