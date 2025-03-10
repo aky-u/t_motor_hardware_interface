@@ -42,10 +42,14 @@ bool ServoSerial::readMotorParameters() {
 
   // print data
   std::cout << "Received data: ";
-  for (const auto &byte : data) {
-    std::cout << std::hex << static_cast<int>(byte) << " ";
-  }
-  std::cout << std::endl;
+  auto motor_state = parseMotorParameters(data);
+  motor_state.printMotorState();
+}
+
+MotorState ServoSerial::parseMotorParameters(const std::vector<uint8_t> &data) const {
+  MotorState motor_state;
+  // Parse the data and fill in the motor state object
+  return motor_state;
 }
 
 } // namespace t_motor_hardware_interface

@@ -25,6 +25,7 @@
 
 #include <string>
 
+#include "t_motor_hardware_interface/servo_serial/motor_state.hpp"
 #include "t_motor_hardware_interface/servo_serial/serial_comm.hpp"
 
 namespace t_motor_hardware_interface {
@@ -36,6 +37,8 @@ public:
 
 private:
   SerialComm serial_comm_;
+  MotorState parseMotorParameters(const std::vector<uint8_t> &data) const;
+
 }; // class ServoSerial
 } // namespace t_motor_hardware_interface
 

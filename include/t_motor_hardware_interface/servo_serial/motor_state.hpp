@@ -23,6 +23,30 @@
 #ifndef T_MOTOR_HARDWARE_INTERFACE__SERVO_SERIAL__MOTOR_STATE_HPP_
 #define T_MOTOR_HARDWARE_INTERFACE__SERVO_SERIAL__MOTOR_STATE_HPP_
 
-namespace t_motor_hardware_interface {} // namespace t_motor_hardware_interface
+namespace t_motor_hardware_interface {
+
+class MotorState {
+public:
+  MotorState();
+  ~MotorState() = default;
+
+  void printMotorState() const;
+
+private:
+  float mos_temperature_;
+  float motor_temperature_;
+  float output_current_;
+  float input_current_;
+  float id_current_;
+  float iq_current_;
+  float throttle_value_;
+  float motor_speed_;
+  float input_voltage_;
+  float motor_outer_loop_position_;
+  int motor_id_;
+  float vd_voltage_;
+  float vq_voltage_;
+}; // class MotorState
+} // namespace t_motor_hardware_interface
 
 #endif // T_MOTOR_HARDWARE_INTERFACE__SERVO_SERIAL__MOTOR_STATE_HPP_
