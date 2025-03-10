@@ -41,8 +41,17 @@ TMotorBase::TMotorBase(uint32_t motor_id, const std::string &interface) : motor_
     std::cerr << "Error initializing motor communication!" << std::endl;
   }
 
-  // Read the initial state of the motor
-  readState();
+  // send command to get motor parameters
+  uint8_t data[6] = {0x02, 0x01, 0x04, 0x40, 0x84, 0x03};
+  if (!motor_comm_->sendMessage(motor_id_, data, 6)) {
+    std::cerr << "Error sending message to get motor parameters!" << std::endl;
+  }
+
+  // read the motor state
+  TMotorState state;
+  if (!motor_comm_->readState(state)) {
+    std::cerr << "Error reading motor state!" << std::endl;
+  }
 }
 
 bool TMotorBase::setZeroPosition() const {}

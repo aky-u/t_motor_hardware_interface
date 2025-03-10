@@ -65,9 +65,8 @@ bool SerialComm::initialize() {
 
   // Set baud rate to 961200 (set with cfsetispeed and cfsetospeed)
   // Since 961200 isn't in termios constants, we use cfsetspeed directly:
-  int custom_baud_rate = 961200;
-  cfsetispeed(&tty, custom_baud_rate);
-  cfsetospeed(&tty, custom_baud_rate);
+  int custom_baud_rate = SerialProtocol::kBaudRate;
+  cfsetspeed(&tty, custom_baud_rate);
 
   // Set 8 data bits, no parity, and 1 stop bit
   tty.c_cflag &= ~PARENB; // No parity
@@ -102,7 +101,16 @@ bool SerialComm::initialize() {
 }
 
 bool SerialComm::sendMessage(const uint32_t motor_id, const uint8_t *data,
-                             const uint8_t len) const {}
+                             const uint8_t len) const {
+  // Send the message
+  int bytes_written = write(fd_, data, len);
+  if (bytes_written < 0) {
+    std::cerr << "Error: Could not write to serial port!" << std::endl;
+    return false;
+  }
+
+  return true;
+}
 
 bool SerialComm::readState(TMotorState &state) const {
   uint8_t data[8];

@@ -32,9 +32,20 @@
 #include <string>
 #include <termios.h>
 
+#include "t_motor_hardware_interface/t_motor_driver/protocol/i_motor_protocol.hpp"
+
 namespace t_motor_hardware_interface {
-// Set the baud rate for the serial port as 961200
-constexpr unsigned int kSerialBaudRate = 961200;
+
+class SerialProtocol : public IMotorProtocol {
+public:
+  SerialProtocol(const std::string &interface);
+  ~SerialProtocol();
+
+  static const int kBaudRate = 961200;
+
+  // get power on message
+  uint8_t *getPowerOnMsg() const override;
+}; // class SerialProtocol
 } // namespace t_motor_hardware_interface
 
 #endif // T_MOTOR_HARDWARE_INTERFACE__T_MOTOR_DRIVER__PROTOCOL__SERIAL_PROTOCOL_HPP_
