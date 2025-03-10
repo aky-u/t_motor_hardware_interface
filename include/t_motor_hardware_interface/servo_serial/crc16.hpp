@@ -23,6 +23,18 @@
 #ifndef T_MOTOR_HARDWARE_INTERFACE__SERVO_SERIAL__CRC16_HPP_
 #define T_MOTOR_HARDWARE_INTERFACE__SERVO_SERIAL__CRC16_HPP_
 
-namespace t_motor_hardware_interface {} // namespace t_motor_hardware_interface
+namespace t_motor_hardware_interface {
+
+#include <cstdint>
+
+class CRC16 {
+public:
+  static uint16_t compute(const uint8_t *buf, uint32_t len);
+
+private:
+  static const uint16_t crc16_table[256];
+};
+
+} // namespace t_motor_hardware_interface
 
 #endif // T_MOTOR_HARDWARE_INTERFACE__SERVO_SERIAL__CRC16_HPP_
