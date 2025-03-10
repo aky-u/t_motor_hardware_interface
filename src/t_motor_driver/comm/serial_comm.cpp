@@ -113,7 +113,7 @@ bool SerialComm::sendMessage(const uint32_t motor_id, const uint8_t *data,
 }
 
 bool SerialComm::readState(TMotorState &state) const {
-  uint8_t data[8];
+  uint8_t data[256];
   uint8_t len = 0;
 
   return readMessage(data, len);
@@ -121,7 +121,7 @@ bool SerialComm::readState(TMotorState &state) const {
 
 bool SerialComm::readMessage(uint8_t *data, uint8_t &len) const {
   // Read the message
-  len = read(fd_, data, 8);
+  len = read(fd_, data, 256);
   if (len < 0) {
     std::cerr << "Error: Could not read from serial port!" << std::endl;
     return false;
